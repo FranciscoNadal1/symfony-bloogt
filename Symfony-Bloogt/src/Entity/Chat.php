@@ -16,6 +16,21 @@ class Chat
      * @ORM\Column(type="integer")
      */
     private $id;
+    /**
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="message", cascade={"all"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="message_id")
+     */
+    private $messages;
+     /**
+     * @ORM\Column(type="datetime")
+     * @var DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="User" )  
+     */
+    private $usersInvolved;
 
     public function getId(): ?int
     {

@@ -16,6 +16,16 @@ class Hashtag
      * @ORM\Column(type="integer")
      */
     private $id;
+        /**
+     * @ORM\Column(type="string", unique="true")
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Hashtag", mappedBy="hashtags" )  
+     */
+    private $posts;
 
     public function getId(): ?int
     {

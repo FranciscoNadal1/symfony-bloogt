@@ -8,17 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=CommentReactionRepository::class)
  */
-class CommentReaction
+class CommentReaction extends Reaction
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="Comments")
      */
-    private $id;
+    private $comment;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 }

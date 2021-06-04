@@ -8,17 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=PostReactionRepository::class)
  */
-class PostReaction
+class PostReaction extends Reaction
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="Post")
      */
-    private $id;
+    private $post;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 }
