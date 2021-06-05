@@ -19,6 +19,16 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function save($user) : bool{
+        try{
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }catch(\Exception $e){
+            return false;
+        }
+        return true;
+}
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
@@ -36,7 +46,7 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+/*
     public function findOneBySomeField($value): ?User
     {
         return $this->createQueryBuilder('u')
@@ -46,5 +56,15 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+*/
+
+    public function findOneBySomeField($value): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

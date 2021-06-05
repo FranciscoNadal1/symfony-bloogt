@@ -88,15 +88,19 @@ class User
      */
     private $chats;
     /**
-     * @ORM\OneToMany(targetEntity="Comments", mappedBy="user", cascade={"all"}, fetch="EAGER", orphanRemoval=true)
-     * @ORM\JoinColumn(name="user_id")
-     */
-    private $comments;
-    /**
      * @ORM\OneToMany(targetEntity="Post", mappedBy="user", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="user_id")
      */
     private $posts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comments", mappedBy="user")
+     */
+    private $comments;
+/*
+* @ORM\OneToMany(targetEntity="Comments", mappedBy="user", cascade={"all"}, fetch="EAGER", orphanRemoval=true)
+* @ORM\JoinColumn(name="user_id")
+ */
 
 
     /**
@@ -214,7 +218,7 @@ class User
     /**
      * @return string
      */
-    public function getAvatar(): string
+    public function getAvatar(): ?string
     {
         return $this->avatar;
     }
@@ -230,7 +234,7 @@ class User
     /**
      * @return string
      */
-    public function getBackground(): string
+    public function getBackground(): ?string
     {
         return $this->background;
     }
@@ -262,7 +266,7 @@ class User
     /**
      * @return string
      */
-    public function getBio(): string
+    public function getBio(): ?string
     {
         return $this->bio;
     }
@@ -278,9 +282,9 @@ class User
     /**
      * @return DateTime
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): string
     {
-        return $this->createdAt;
+        return $this->createdAt->format('Y-m-d');;
     }
 
     /**
@@ -371,6 +375,42 @@ class User
         $this->posts = $posts;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///         DATA PROJECTIONS
+    ///
 
+    public static function MapDataToUserDataProjection($data){
+        if(is_array($data)){
+            $dataToReturn = array();
+            foreach($data as $dat) {
+                $dataToReturn[] = User::UserData($dat);
+            }
+            return $dataToReturn;
+        }else{
+            return User::UserData($data);
+        }
+
+
+    }
+
+    public static function UserData($User){
+        $data =[
+            'id' => $User->getId(),
+          'username' => $User->getUsername(),
+            'name' => $User->getName(),
+            'surname' => $User->getSurname(),
+
+            'avatar' => $User->getAvatar(),
+            'background' => $User->getBackground(),
+            'bio' => $User->getBio(),
+            'createdAt' => $User->getCreatedAt(),
+
+            'email' => $User->getEmail(),
+            'userRoles' => $User->getRoles(),
+            'following' => $User->getFollowing()
+        ];
+
+        return $data;
+    }
 
 }

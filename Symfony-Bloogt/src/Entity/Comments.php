@@ -24,14 +24,19 @@ class Comments
      * @Assert\Length(min=1)
      */
     private $message;
-    /**
+    /*
      * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="User",
      *      joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", unique=true)}
      *      )    
      */
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
     private $createdBy;
+
     private $post;
     /**
      * @ORM\Column(type="datetime")
