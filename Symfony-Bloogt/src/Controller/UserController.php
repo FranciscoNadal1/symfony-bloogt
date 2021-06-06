@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\RoleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,12 +45,38 @@ class UserController extends AbstractController
 
     }
 
+    /**
+     * @Route("/getUserByUsername/{username}", name="Get user by username", methods={"GET"})
+     * @return Response
+     */
+    public function getUsernameById(UserRepository $repo, string $username): Response
+    {
+
+        $userData = $repo->findOneBy(array('username' => $username));
+
+  //     print_r($userData->getRoles());
+
+        if($userData == null){
+            $data =[
+                'message' => "No data was found",
+                'status' => "500"
+            ];
+            return new JsonResponse($data, 500);
+        }
+
+        $data = User::MapDataToUserDataProjection($userData);
+
+
+
+        return new JsonResponse($data, Response::HTTP_OK);
+
+    }
 
 
     /**
      * @Route("/newUser", name="create new user", methods={"POST"})
      */
-    public function newUser(Request $request, UserRepository $repo): Response
+    public function newUser(Request $request, UserRepository $repo, RoleRepository $roleRepo): Response
     {
 
 
@@ -88,16 +115,19 @@ class UserController extends AbstractController
             $user->setBackground($data['background']);
 
 
+
         if($repo->save($user)){
-            return new JsonResponse(User::MapDataToUserDataProjection($user), Response::HTTP_OK);
+            if($roleRepo->associateAuthorityToUser($user, "ROLE_USER")){
+                return new JsonResponse(User::MapDataToUserDataProjection($user), Response::HTTP_OK);
+            }
         }
-        else{
+//        else{
             $data =[
                 'message' => "Data could not be saved on the database",
                 'status' => "500"
             ];
             return new JsonResponse($data, Response::HTTP_NOT_ACCEPTABLE);
-        }
+  //      }
 
     }
 }

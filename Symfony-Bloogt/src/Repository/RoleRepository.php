@@ -19,6 +19,22 @@ class RoleRepository extends ServiceEntityRepository
         parent::__construct($registry, Role::class);
     }
 
+    public function associateAuthorityToUser($user, $role) : bool{
+
+        try{
+
+            $role = new Role($user, $role);
+
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($role);
+            $entityManager->flush();
+
+
+        }catch(\Exception $e){
+            return false;
+        }
+        return true;
+    }
     // /**
     //  * @return Role[] Returns an array of Role objects
     //  */

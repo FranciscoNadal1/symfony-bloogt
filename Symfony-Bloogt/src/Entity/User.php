@@ -72,7 +72,6 @@ class User
     private $createdAt;
     /**
      * @ORM\OneToMany(targetEntity="Role", mappedBy="user", cascade={"all"}, fetch="LAZY"), orphanRemoval=true)
-     * @ORM\JoinColumn(name="user_id")
      */
     private $roles;
     /**
@@ -389,11 +388,12 @@ class User
         }else{
             return User::UserData($data);
         }
-
-
     }
 
     public static function UserData($User){
+
+        $role = $User->getRoles();
+
         $data =[
             'id' => $User->getId(),
           'username' => $User->getUsername(),
@@ -406,7 +406,7 @@ class User
             'createdAt' => $User->getCreatedAt(),
 
             'email' => $User->getEmail(),
-            'userRoles' => $User->getRoles(),
+            'userRoles' => Role::RoleList($User->getRoles()),
             'following' => $User->getFollowing()
         ];
 
