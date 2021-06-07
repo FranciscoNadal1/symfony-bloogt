@@ -31,18 +31,8 @@ class UserController extends AbstractController
      */
     public function listOfAllUsers(UserRepository $repo): Response
     {
-
-    //$    $data = array();
-/*
-        foreach($repo->findAll() as $dat) {
-            $data[] = User::UserData($dat);
-        }
-*/
-    $data = User::MapDataToUserDataProjection($repo->findAll());
-
-
+        $data = User::MapDataToUserDataProjection($repo->findAll());
         return new JsonResponse($data, Response::HTTP_OK);
-
     }
 
     /**
@@ -54,8 +44,6 @@ class UserController extends AbstractController
 
         $userData = $repo->findOneBy(array('username' => $username));
 
-  //     print_r($userData->getRoles());
-
         if($userData == null){
             $data =[
                 'message' => "No data was found",
@@ -63,10 +51,7 @@ class UserController extends AbstractController
             ];
             return new JsonResponse($data, 500);
         }
-
         $data = User::MapDataToUserDataProjection($userData);
-
-
 
         return new JsonResponse($data, Response::HTTP_OK);
 
@@ -101,8 +86,6 @@ class UserController extends AbstractController
             $user->setEmail($data['email']);
         if(isset($data['password']))
             $user->setPassword($data['password']);
-
-
         if(isset($data['name']))
             $user->setName($data['name']);
         if(isset($data['surname']))
@@ -116,9 +99,34 @@ class UserController extends AbstractController
 
 
 
+///////////////   Checking it doesn't exist already
+
+        $byUsernameData = $repo->findOneBy(array('username' => $user->getUsername()));
+        $byMailData = $repo->findOneBy(array('email' => $user->getEmail()));
+
+        if($byUsernameData != null){
+            $data =[
+                'message' => "There is already an user with that username",
+                'status' => "500"
+            ];
+            return new JsonResponse($data, Response::HTTP_NOT_ACCEPTABLE);
+        }
+        if($byMailData != null){
+            $data =[
+                'message' => "There is already an user with that email",
+                'status' => "500"
+            ];
+            return new JsonResponse($data, Response::HTTP_NOT_ACCEPTABLE);
+        }
+
+///////////////   Saving data
         if($repo->save($user)){
             if($roleRepo->associateAuthorityToUser($user, "ROLE_USER")){
-                return new JsonResponse(User::MapDataToUserDataProjection($user), Response::HTTP_OK);
+                $data =[
+                    'message' => "User ". $user->getUsername() ." created",
+                    'status' => "OK"
+                ];
+                return new JsonResponse($data, Response::HTTP_OK);
             }
         }
 //        else{

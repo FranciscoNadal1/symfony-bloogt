@@ -87,13 +87,13 @@ class User
      */
     private $chats;
     /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="createdBy", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="user_id")
      */
     private $posts;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comments", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Comments", mappedBy="createdBy")
      */
     private $comments;
 /*
@@ -169,7 +169,7 @@ class User
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -185,7 +185,7 @@ class User
     /**
      * @return string
      */
-    public function getSurname(): string
+    public function getSurname(): ?string
     {
         return $this->surname;
     }
@@ -279,17 +279,18 @@ class User
     }
 
     /**
-     * @return DateTime
+     * @return string
      */
     public function getCreatedAt(): string
     {
-        return $this->createdAt->format('Y-m-d');;
+        return $this->createdAt->format('Y-m-d h:m:s');
     }
+
 
     /**
      * @param DateTime $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -379,7 +380,7 @@ class User
     ///
 
     public static function MapDataToUserDataProjection($data){
-        if(is_array($data)){
+        if(is_array($data)  or $data instanceof \Doctrine\ORM\PersistentCollection){
             $dataToReturn = array();
             foreach($data as $dat) {
                 $dataToReturn[] = User::UserData($dat);
@@ -392,8 +393,9 @@ class User
 
     public static function UserData($User){
 
-        $role = $User->getRoles();
+      //  $role = $User->getRoles();
 
+       // dump($User->getComments());
         $data =[
             'id' => $User->getId(),
           'username' => $User->getUsername(),
@@ -407,10 +409,45 @@ class User
 
             'email' => $User->getEmail(),
             'userRoles' => Role::RoleList($User->getRoles()),
-            'following' => $User->getFollowing()
+   //         'following' => sizeof($User->getFollowing())
+            'following' => User::MapDataToUserBasicDataProjection($User->getFollowing()),
+            'writtenComments' => sizeof($User->getComments()),
+            'writtenPosts' => sizeof($User->getPosts())
+
+
+
         ];
 
         return $data;
     }
 
+    public static function MapDataToUserBasicDataProjection($data){
+
+       // var_dump($data instanceof \Doctrine\ORM\PersistentCollection);
+
+
+        if(is_array($data) or $data instanceof \Doctrine\ORM\PersistentCollection){
+            $dataToReturn = array();
+            foreach($data as $dat) {
+             //   $dataToReturn[] = User::UserBasicData($dat);
+                $dataToReturn[] = User::UserBasicData($dat);
+            }
+            return $dataToReturn;
+        }else{
+            return User::UserBasicData($data);
+        }
+    }
+    public static function UserBasicData($User){
+
+        $data =[
+            'id' => $User->getId(),
+            'username' => $User->getUsername(),
+            'name' => $User->getName(),
+            'surname' => $User->getSurname(),
+            'avatar' => $User->getAvatar(),
+            'background' => $User->getBackground()
+        ];
+
+        return $data;
+    }
 }

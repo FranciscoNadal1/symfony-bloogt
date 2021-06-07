@@ -23,9 +23,13 @@ class Post
      * @var string
      */
     private $title;
-    /**
+    /*
     * @ORM\Column(type="simple_array")
     */
+    /**
+     * @ORM\OneToMany(targetEntity="PostImagePost", mappedBy="post", cascade={"all"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="post_id")
+     */
     private $imagePost;
      /**
      * @ORM\Column(type="datetime")
@@ -33,28 +37,32 @@ class Post
      */
     private $createdAt;
      /**
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="text")
      * @Assert\NotNull()
      * @var string
      */
     private $content;
 
   /**
-     * @ORM\ManyToMany(targetEntity="Hashtag", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Hashtag", mappedBy="posts", cascade={"persist", "remove"})
      */
     private $hashtags;
 
     /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="user", cascade={"all"}, orphanRemoval=true)
-     * @ORM\JoinColumn(name="user_id")
+     * @ORM\OneToMany(targetEntity="Comments", mappedBy="post", cascade={"all"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="comment_id")
      */
     private $comments;
-    /**
+    /*
      * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="User",
      *      joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", unique=true)}
      *      )    
+     */
+    /**
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $createdBy;
     /**
@@ -164,17 +172,17 @@ class Post
     }
 
     /**
-     * @return DateTime
+     * @return String
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): string
     {
-        return $this->createdAt;
+        return $this->createdAt->format('Y-m-d h:m:s');
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param \DateTime $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -342,7 +350,71 @@ class Post
 
 
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///         DATA PROJECTIONS
+    ///
 
+    public static function MapDataToPostMinDataProjection($data){
+        if(is_array($data)  or $data instanceof \Doctrine\ORM\PersistentCollection){
+            $dataToReturn = array();
+            foreach($data as $dat) {
+                $dataToReturn[] = Post::PostMinData($dat);
+            }
+            return $dataToReturn;
+        }else{
+            return Post::PostMinData($data);
+        }
+    }
+    public static function MapDataToPostDataProjection($data){
+        if(is_array($data)  or $data instanceof \Doctrine\ORM\PersistentCollection){
+            $dataToReturn = array();
+            foreach($data as $dat) {
+                $dataToReturn[] = Post::PostData($dat);
+            }
+            return $dataToReturn;
+        }else{
+            return Post::PostData($data);
+        }
+    }
+
+
+    public static function PostMinData($Post){
+
+        $data =[
+            'id' => $Post->getId(),
+            'title' => $Post->getTitle(),
+            'createdBy' => User::MapDataToUserBasicDataProjection($Post->getCreatedBy()),
+            'createdAt' => $Post->getCreatedAt(),
+            'totalReactions' => 9999,
+            'negativeReactions' => 9999,
+            'positiveReactions' => 9999,
+
+        ];
+        return $data;
+    }
+    public static function PostData($Post){
+
+        $data =[
+            'id' => $Post->getId(),
+            'content' => $Post->getContent(),
+            'title' => $Post->getTitle(),
+            'createdBy' => User::MapDataToUserBasicDataProjection($Post->getCreatedBy()),
+            'createdAt' => $Post->getCreatedAt(),
+            'totalReactions' => 9999,
+            'negativeReactions' => 9999,
+            'positiveReactions' => 9999,
+            'comentaryCount' => sizeof($Post->getComments()),
+            'timesViewed' => 9999,
+            'category' => Category::MapDataCategoryOnlyNameProjection($Post->getCategory()),
+            'isShared' => null,
+            'sharedBy' => null,
+            'sharedAt' => null,
+            'imagePost' => $Post->getImagePost(),
+            'hashtags' => Hashtag::MapDataHashtagOnlyNameProjection($Post->getHashtags())
+
+        ];
+        return $data;
+    }
 
 
 }
