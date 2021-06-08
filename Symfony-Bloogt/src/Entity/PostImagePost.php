@@ -44,4 +44,15 @@ class PostImagePost
 
         return $this;
     }
+
+
+    public static function PostImageList($data){
+
+        $dataToReturn = array();
+        foreach($data as $dat) {
+            $dataToReturn[] =  $dat->getImagePost();
+        }
+        return $dataToReturn;
+
+    }
 }

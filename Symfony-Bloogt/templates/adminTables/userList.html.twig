@@ -1,0 +1,47 @@
+{% extends "adminTables/mainLayout.html.twig" %}
+
+{% block body %}
+<table class="table  table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th></th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Roles</th>
+        <th>Posts</th>
+        <th>Comments</th>
+        <th>Following</th>
+        <th>Followers</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+{% for user in users %}
+    <tr>
+        <td>
+            <img height="50" src="{{ user.getAvatar()|e }}"/>
+            </td>
+
+
+   <td> {{ user.getUsername()|e }}</td>
+        <td> {{ user.getEmail()|e }}</td>
+   <td>
+
+       {% for roles in user.getRoles() %}
+           {{ roles|e }}
+   <br/>
+
+       {% endfor %}
+
+   </td>
+        <td><a href="{{ path('listPostsOfUser', {username: user.getUsername()}) }}">{{ user.getPostNumber() }}</a></td>
+        <td><a href="{{ path('listCommentsOfUser', {username: user.getUsername()}) }}">{{ user.getCommentCount() }}</a></td>
+        <td>{{ user.getFollowingCount() }}</td>
+        <td></td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

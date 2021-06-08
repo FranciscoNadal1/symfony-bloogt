@@ -1,0 +1,29 @@
+{% extends "adminTables/mainLayout.html.twig" %}
+
+{% block body %}
+<table class="table  table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th>Message</th>
+        <th>Created at</th>
+        <th>Post related</th>
+
+
+    </tr>
+    </thead>
+
+    <tbody>
+{% for comment in comments %}
+    <tr>
+
+        <td>{{ comment.getMessage() }}</td>
+        <td>{{ comment.getCreatedAt() }}</td>
+        <td><a>View post</a></td>
+
+    </tr>
+{% endfor %}
+    </tbody>
+
+</table>
+
+{% endblock %}

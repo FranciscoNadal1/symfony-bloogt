@@ -1,3 +1,33 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+
+
+login:
+  path:       /admin/login
+  controller: App\Security\AppCustomAuthenticator::onAuthenticationSuccess()
+
+listAllApiMethods:
+  path:       /admin/listControllers
+  controller: App\Controller\Main\IndexController::getAllApiRoutes
+
+listAllUsers:
+  path:       /admin/listAllUsers
+  controller: App\Controller\Main\IndexController::getAllUsers
+
+listPostsOfUser:
+  path:       /admin/listPostsOfUser/{username}
+  controller: App\Controller\Main\IndexController::getPostsOfUser
+
+listAllPosts:
+  path:       /admin/listAllPosts
+  controller: App\Controller\Main\IndexController::getAllPosts
+
+listCommentsOfUser:
+  path:       /admin/listCommentsOfUser/{username}
+  controller: App\Controller\Main\IndexController::getCommentsOfUser
+
+listAllComments:
+  path:       /admin/listAllComments
+  controller: App\Controller\Main\IndexController::getAllComments

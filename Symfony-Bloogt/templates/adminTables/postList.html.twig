@@ -1,0 +1,40 @@
+{% extends "adminTables/mainLayout.html.twig" %}
+
+{% block body %}
+<table class="table  table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th>Category</th>
+        <th>Creation date</th>
+        <th>Content</th>
+        <th>CommentCount</th>
+        <th>Hashtags</th>
+
+
+    </tr>
+    </thead>
+
+    <tbody>
+{% for post in posts %}
+    <tr>
+
+        <td>{{ post.getCategory().getName() }}</td>
+        <td>{{  post.createdAt() }}</td>
+        <td>{{ post.getContent() }}</td>
+        <td>{{ post.getCommentCount() }}</td>
+        <td>
+
+            {% for hashtag in post.getHashtags() %}
+                #{{ hashtag.getName()|e }}
+                <br/>
+
+            {% endfor %}
+
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+
+</table>
+
+{% endblock %}

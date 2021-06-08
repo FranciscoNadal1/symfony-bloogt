@@ -226,6 +226,13 @@ class Post
     {
         return $this->comments;
     }
+    /**
+     * @return number
+     */
+    public function getCommentCount()
+    {
+        return sizeof($this->comments);
+    }
 
     /**
      * @param mixed $comments
@@ -409,7 +416,7 @@ class Post
             'isShared' => null,
             'sharedBy' => null,
             'sharedAt' => null,
-            'imagePost' => $Post->getImagePost(),
+    //        'imagePost' => PostImagePost::PostImageList($Post->getImagePost()),
             'hashtags' => Hashtag::MapDataHashtagOnlyNameProjection($Post->getHashtags())
 
         ];

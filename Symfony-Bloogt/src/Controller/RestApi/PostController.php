@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\RestApi;
 
 use App\Entity\Post as Post;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +31,20 @@ class PostController extends AbstractController
     {
 
         $data = Post::MapDataToPostDataProjection($repo->findAll());
+
+        return new JsonResponse($data, Response::HTTP_OK);
+
+    }
+
+    /**
+     * @Route("/getAll/category/name/{category}", name="get all posts of category", methods={"GET"})
+     * @return Response
+     */
+    public function listAllPostsOfCategory(PostRepository $repo, CategoryRepository $catRepo, string $category): Response
+    {
+
+        $category = $catRepo->findOneBy(array('name' => $category));
+        $data = Post::MapDataToPostDataProjection($repo->findAll(array('category' => $category)));
 
         return new JsonResponse($data, Response::HTTP_OK);
 

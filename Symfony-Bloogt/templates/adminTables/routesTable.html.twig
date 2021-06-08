@@ -1,0 +1,30 @@
+{% extends "adminTables/mainLayout.html.twig" %}
+
+{% block body %}
+<table class="table  table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th>Routes</th>
+        <th>Methods</th>
+        <th>Status</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+{% for route in routes %}
+    <tr>
+   <td> {{ route.getPath()|e }}</td>
+   <td>
+       {% for method in route.methods %}
+       {{ method|e }}
+
+       {% endfor %}
+
+   </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

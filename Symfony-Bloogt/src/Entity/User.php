@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @method string getUserIdentifier()
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -300,7 +302,10 @@ class User
      */
     public function getRoles()
     {
-        return $this->roles;
+      //  return $this->roles;
+     //   $array = array("ROLE_USER");
+     //   return $array;
+        return Role::RoleList($this->roles);
     }
 
     /**
@@ -352,6 +357,14 @@ class User
     }
 
     /**
+     * @return number
+     */
+    public function getCommentCount()
+    {
+        return sizeof($this->comments);
+    }
+
+    /**
      * @param mixed $comments
      */
     public function setComments($comments): void
@@ -366,6 +379,13 @@ class User
     {
         return $this->posts;
     }
+    /**
+     * @return number
+     */
+    public function getPostNumber()
+    {
+        return sizeof($this->posts);
+    }
 
     /**
      * @param mixed $posts
@@ -374,7 +394,13 @@ class User
     {
         $this->posts = $posts;
     }
-
+    /**
+     * @return number
+     */
+    public function getFollowingCount()
+    {
+        return sizeof($this->getFollowing());
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     ///         DATA PROJECTIONS
     ///
@@ -408,11 +434,11 @@ class User
             'createdAt' => $User->getCreatedAt(),
 
             'email' => $User->getEmail(),
-            'userRoles' => Role::RoleList($User->getRoles()),
+            'userRoles' => $User->getRoles(),
    //         'following' => sizeof($User->getFollowing())
             'following' => User::MapDataToUserBasicDataProjection($User->getFollowing()),
-            'writtenComments' => sizeof($User->getComments()),
-            'writtenPosts' => sizeof($User->getPosts())
+            'writtenComments' => $User->getPostNumber(),
+            'writtenPosts' => $User->getCommentCount()
 
 
 
@@ -449,5 +475,35 @@ class User
         ];
 
         return $data;
+    }
+
+    /**
+     * Returns the salt that was originally used to hash the password.
+     *
+     * This can return null if the password was not hashed using a salt.
+     *
+     * This method is deprecated since Symfony 5.3, implement it from {@link LegacyPasswordAuthenticatedUserInterface} instead.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
     }
 }

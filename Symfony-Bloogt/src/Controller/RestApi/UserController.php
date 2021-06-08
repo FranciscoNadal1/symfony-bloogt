@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\RestApi;
 
 use App\Repository\RoleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +39,7 @@ class UserController extends AbstractController
      * @Route("/getUserByUsername/{username}", name="Get user by username", methods={"GET"})
      * @return Response
      */
-    public function getUsernameById(UserRepository $repo, string $username): Response
+    public function getUsernameByUsername(UserRepository $repo, string $username): Response
     {
 
         $userData = $repo->findOneBy(array('username' => $username));
