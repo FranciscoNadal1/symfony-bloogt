@@ -11,7 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 class PostReaction extends Reaction
 {
     /**
-     * @ORM\OneToOne(targetEntity="Post")
+     * @ORM\ManyToOne(targetEntity="Post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;
 

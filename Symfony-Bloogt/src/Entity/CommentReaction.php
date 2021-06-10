@@ -10,8 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CommentReaction extends Reaction
 {
+
     /**
-     * @ORM\OneToOne(targetEntity="Comments")
+     * @ORM\ManyToOne(targetEntity="Comments")
+     * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
      */
     private $comment;
 

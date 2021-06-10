@@ -25,6 +25,30 @@ class IndexController extends AbstractController
         ));
 
     }
+
+    public function getPostById(PostRepository $postRepo, CategoryRepository $categoryRepo, int $id)
+    {
+
+        $postData = $postRepo->findOneBy(array('id' => $id));
+        $categoryData = $categoryRepo->findAll();
+        return $this->render('main/postDetails.html.twig', array(
+            'post' => $postData,
+            'Categories' => $categoryData,
+        ));
+
+    }
+    public function getUserProfile(UserRepository $userRepo, CategoryRepository $categoryRepo, string $username)
+    {
+
+        $UserData = $userRepo->findOneBy(array('username' => $username));
+        $categoryData = $categoryRepo->findAll();
+        return $this->render('main/userProfile.html.twig', array(
+            'User' => $UserData,
+            'Categories' => $categoryData,
+        ));
+
+    }
+
     public function getAllPostsOfCategory(string $category, PostRepository $postRepo, CategoryRepository $categoryRepo)
     {
 

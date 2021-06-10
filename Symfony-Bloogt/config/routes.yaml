@@ -7,13 +7,17 @@ index:
   path:       /
   controller: App\Controller\Main\IndexController::getAllPosts
 
+postById:
+  path:       /post/{id}
+  controller: App\Controller\Main\IndexController::getPostById
+
 postsOfCategory:
   path:       /category/{category}
   controller: App\Controller\Main\IndexController::getAllPostsOfCategory
 
 profile:
-  path:       /profile
-  controller: App\Controller\Main\IndexController::getAllApiRoutes
+  path:       /profile/{username}
+  controller: App\Controller\Main\IndexController::getUserProfile
 
 messages:
   path:       /messages

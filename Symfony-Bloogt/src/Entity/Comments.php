@@ -47,7 +47,6 @@ class Comments
      * @var DateTime
      */
     private $createdAt;
-    private $reaction;
     /**
      * @ORM\Column(type="boolean")
      * @var boolean
@@ -56,7 +55,14 @@ class Comments
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Notifications", mappedBy="relatedComment", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CommentReaction", mappedBy="comment", cascade={"all"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="comment_id", onDelete="CASCADE")
+     */
+    private $reaction;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Notifications", cascade={"all"},  mappedBy="relatedComment", orphanRemoval=true)
+     * @ORM\JoinColumn(name="comment_id", onDelete="CASCADE")
      */
     private $notifications;
 
@@ -140,7 +146,15 @@ class Comments
     {
         return $this->reaction;
     }
-
+    /**
+     * @return number
+     */
+    public function getReactionCount()
+    {
+        if(!isset($this->reaction))
+            return 0;
+        return sizeof($this->reaction);
+    }
     /**
      * @param mixed $reaction
      */

@@ -5,6 +5,7 @@
     <thead class="thead-dark">
     <tr>
         <th>Category</th>
+        <th>Reaction count</th>
         <th>Creation date</th>
         <th>Content</th>
         <th>CommentCount</th>
@@ -16,9 +17,12 @@
 
     <tbody>
 {% for post in posts %}
-    <tr>
 
+    
+
+    <tr>
         <td>{{ post.getCategory().getName() }}</td>
+        <td>{{ post.reactionCount }}</td>
         <td>{{ post.createdAt() }}</td>
         <td>{{ post.getContent() }}</td>
         <td>{{ post.getCommentCount() }}</td>

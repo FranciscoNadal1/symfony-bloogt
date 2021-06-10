@@ -1,0 +1,28 @@
+
+/*######################################
+        MainContent CSS
+######################################*/
+#Wrapper{
+    display:flex;
+    min-height:1000px;
+}
+
+.mainContent{
+
+    height:100%;
+    padding-left:30px;
+    padding-right:30px;
+}
+
+.wrapper{
+    width:100%;
+}
+
+.navbar {
+    background-color:#272932 !important;
+    color:white !important;
+}
+
+body{
+    background: url(https://www.toptal.com/designers/subtlepatterns/patterns/webb.png);
+}

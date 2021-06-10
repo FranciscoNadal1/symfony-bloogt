@@ -1,0 +1,16 @@
+/*######################################
+    SubHeader CSS
+######################################*/
+.subHeader{
+    background-color: rgba(200, 200, 200, 0.3) !important;
+
+
+}
+.subHeader>div{
+    padding:20px;
+}
+
+.businessLogo{
+    width:200px;
+}
+

@@ -31,7 +31,7 @@ abstract class Reaction
      *      )    
      */
     /**
-     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $reactedBy;

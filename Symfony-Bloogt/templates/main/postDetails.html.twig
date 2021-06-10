@@ -1,0 +1,74 @@
+{% extends "main/mainLayout.html.twig" %}
+
+
+{% block body %}
+    <div class="postListBody">
+
+        <div class="postListElement">
+            <div class="commentCount"><span>{{  post.commentCount }}</span></div>
+            <div class="postAuthor ">
+
+                Posted by
+                {% if post.createdBy.avatar == null %}
+                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="headerProfilePic"/>
+                {% endif %}
+
+                {% if post.createdBy.avatar != null %}
+                    <img src="{{post.createdBy.avatar}}" class="headerProfilePic"/>
+                {% endif %}
+                <span class="author"><a href="{{ path('profile', {username: post.createdBy.username}) }}">{{ post.createdBy.username }}</a></span>
+                at
+                {{ post.createdAt }}
+                /
+                <a href={{ path('postsOfCategory', {category: post.category.name}) }}><span class="category">{{ post.category.name }}</span></a>
+            </div>
+            <div class="postContent">{{  post.content }}</div>
+            <div class="postReactions">
+                <a class="col-6 float-left text-center"><i class="glyphicon glyphicon-thumbs-up"></i> That's awesome! ({{ post.reactionCount }})</a>
+                <a class="col-6 float-right text-center"><i class="glyphicon glyphicon-thumbs-down"></i> Meh! ({{ post.reactionCount }})</a>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="commentBox">
+    <div class="comentariosHeader">Comentarios</div>
+    <div class="comentariosList">
+
+    {% for comment in post.comments %}
+        <div class="comment">
+
+            <div class="postListElement">
+                <div class="postAuthor ">
+
+                    Posted by
+                    {% if comment.createdBy.avatar == null %}
+                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="headerProfilePic"/>
+                    {% endif %}
+
+                    {% if comment.createdBy.avatar != null %}
+                        <img src="{{comment.createdBy.avatar}}" class="headerProfilePic"/>
+                    {% endif %}
+                    <span class="author"><a href="{{ path('profile', {username: comment.createdBy.username}) }}">{{ comment.createdBy.username }}</a></span>
+                    at
+                    {{ post.createdAt }}
+
+
+                </div>
+                <div class="postContent">{{  comment.message }}</div>
+                <div class="postReactions">
+
+                    <a class="col-6 float-left text-center"><i class="glyphicon glyphicon-thumbs-up"></i>  ({{ comment.reactionCount }})</a>
+                    <a class="col-6 float-right text-center"><i class="glyphicon glyphicon-thumbs-down"></i>  ({{ comment.reactionCount }})</a>
+
+
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock %}

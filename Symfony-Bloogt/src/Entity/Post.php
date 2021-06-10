@@ -75,11 +75,16 @@ class Post
     private $timesViewed;
 
     /**
-     * @ORM\OneToMany(targetEntity="PostReaction", mappedBy="reactedBy", cascade={"all"}, orphanRemoval=true)
-     * @ORM\JoinColumn(name="user_id")
+     * @ORM\OneToMany(targetEntity="PostReaction", mappedBy="post", cascade={"all"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="post_id", onDelete="CASCADE")
      */
     private $reaction;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Notifications", cascade={"all"},  mappedBy="relatedComment", orphanRemoval=true)
+     * @ORM\JoinColumn(name="post_id", onDelete="CASCADE")
+     */
+    private $notifications;
 
 
     ////////////////    Only for shared Posts
@@ -298,6 +303,13 @@ class Post
     }
 
     /**
+     * @return number
+     */
+    public function getReactionCount()
+    {
+        return sizeof($this->reaction);
+    }
+    /**
      * @param mixed $reaction
      */
     public function setReaction($reaction): void
@@ -391,7 +403,7 @@ class Post
             'title' => $Post->getTitle(),
             'createdBy' => User::MapDataToUserBasicDataProjection($Post->getCreatedBy()),
             'createdAt' => $Post->getCreatedAt(),
-            'totalReactions' => 9999,
+            'totalReactions' => $Post->getReactionCount(),
             'negativeReactions' => 9999,
             'positiveReactions' => 9999,
 
@@ -406,7 +418,7 @@ class Post
             'title' => $Post->getTitle(),
             'createdBy' => User::MapDataToUserBasicDataProjection($Post->getCreatedBy()),
             'createdAt' => $Post->getCreatedAt(),
-            'totalReactions' => 9999,
+            'totalReactions' => $Post->getReactionCount(),
             'negativeReactions' => 9999,
             'positiveReactions' => 9999,
             'comentaryCount' => sizeof($Post->getComments()),

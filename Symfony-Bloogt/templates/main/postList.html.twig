@@ -20,14 +20,23 @@
                 {% if post.createdBy.avatar != null %}
                     <img src="{{post.createdBy.avatar}}" class="headerProfilePic"/>
                 {% endif %}
-                <span class="author">{{ post.createdBy.username }}</span>
+                <span class="author"><a href="{{ path('profile', {username: post.createdBy.username}) }}">{{ post.createdBy.username }}</a></span>
                 at
                 {{ post.createdAt }}
                 /
                 <a href={{ path('postsOfCategory', {category: post.category.name}) }}><span class="category">{{ post.category.name }}</span></a>
             </div>
-            <div class="postContent">{{  post.content }}</div>
-            <div class="postReactions"></div>
+            <div class="postContent">
+                <a  href="{{ path('postById', {id: post.id}) }}">
+                    {{  post.content }}
+                </a>
+            </div>
+            <div class="postReactions">
+                <a class="col-6 float-left text-center"><i class="glyphicon glyphicon-thumbs-up"></i> That's awesome! ({{ post.reactionCount }})</a>
+                <a class="col-6 float-right text-center"><i class="glyphicon glyphicon-thumbs-down"></i> Meh... ({{ post.reactionCount }})</a>
+
+
+            </div>
         </div>
 
 
