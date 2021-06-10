@@ -32,13 +32,13 @@ class Comments
      *      )    
      */
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $createdBy;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Post", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Post")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     private $post;
@@ -53,6 +53,16 @@ class Comments
      * @var boolean
      */
     private $removedByModerator;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Notifications", mappedBy="relatedComment", orphanRemoval=true)
+     */
+    private $notifications;
+
+
+
+
 
     public function getId(): ?int
     {
@@ -154,6 +164,7 @@ class Comments
     {
         $this->removedByModerator = $removedByModerator;
     }
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     ///         DATA PROJECTIONS

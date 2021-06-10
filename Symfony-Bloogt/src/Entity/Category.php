@@ -81,6 +81,15 @@ class Category
     }
 
     /**
+     * @return number
+     */
+    public function getPostCount()
+    {
+        if($this->posts == null)
+            return 0;
+        return sizeof($this->posts);
+    }
+    /**
      * @param mixed $posts
      */
     public function setPosts($posts): void

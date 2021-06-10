@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=PostImagePostRepository::class)
  */
-class PostImagePost
+class PostImage
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="guid")
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     private $id;
 
@@ -26,7 +26,7 @@ class PostImagePost
      * @ORM\ManyToOne(targetEntity="Post", inversedBy="PostImagePost", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    private $postId;
+    private $post;
 
     public function getId(): ?int
     {

@@ -1,0 +1,37 @@
+{% extends "main/mainLayout.html.twig" %}
+
+
+{% block body %}
+    <div class="postListBody">
+    {% if Category is defined %}
+       <div class="categoryListTitle"> Listing category {{ Category }}</div>
+    {% endif %}
+    {% for post in Posts %}
+
+        <div class="postListElement">
+            <div class="commentCount"><span>{{  post.commentCount }}</span></div>
+            <div class="postAuthor ">
+
+                Posted by
+                {% if post.createdBy.avatar == null %}
+                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="headerProfilePic"/>
+                {% endif %}
+
+                {% if post.createdBy.avatar != null %}
+                    <img src="{{post.createdBy.avatar}}" class="headerProfilePic"/>
+                {% endif %}
+                <span class="author">{{ post.createdBy.username }}</span>
+                at
+                {{ post.createdAt }}
+                /
+                <a href={{ path('postsOfCategory', {category: post.category.name}) }}><span class="category">{{ post.category.name }}</span></a>
+            </div>
+            <div class="postContent">{{  post.content }}</div>
+            <div class="postReactions"></div>
+        </div>
+
+
+
+    {% endfor %}
+    </div>
+{% endblock %}

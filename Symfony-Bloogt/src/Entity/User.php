@@ -86,6 +86,10 @@ class User implements UserInterface
     private $following;
     /**
      * @ORM\ManyToMany(targetEntity="Chat", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="user_chats",
+     *      joinColumns={@ORM\JoinColumn(name="chats_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="users_involved_id", referencedColumnName="id", unique=true)}
+     *      )
      */
     private $chats;
     /**

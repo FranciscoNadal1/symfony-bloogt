@@ -3,31 +3,62 @@
 #    controller: App\Controller\DefaultController::index
 
 
+index:
+  path:       /
+  controller: App\Controller\Main\IndexController::getAllPosts
+
+postsOfCategory:
+  path:       /category/{category}
+  controller: App\Controller\Main\IndexController::getAllPostsOfCategory
+
+profile:
+  path:       /profile
+  controller: App\Controller\Main\IndexController::getAllApiRoutes
+
+messages:
+  path:       /messages
+  controller: App\Controller\Main\IndexController::getAllApiRoutes
 
 login:
-  path:       /admin/login
+  path:       /login
   controller: App\Security\AppCustomAuthenticator::onAuthenticationSuccess()
 
+##############################################################################
+###############            ADMIN PANEL METHODS            ####################
+###############                                           ####################
+##############################################################################
 listAllApiMethods:
-  path:       /admin/listControllers
-  controller: App\Controller\Main\IndexController::getAllApiRoutes
+  path:       /admin
+  controller: App\Controller\Main\AdminController::getAllApiRoutes
 
 listAllUsers:
   path:       /admin/listAllUsers
-  controller: App\Controller\Main\IndexController::getAllUsers
+  controller: App\Controller\Main\AdminController::getAllUsers
 
 listPostsOfUser:
   path:       /admin/listPostsOfUser/{username}
-  controller: App\Controller\Main\IndexController::getPostsOfUser
+  controller: App\Controller\Main\AdminController::getPostsOfUser
 
 listAllPosts:
   path:       /admin/listAllPosts
-  controller: App\Controller\Main\IndexController::getAllPosts
+  controller: App\Controller\Main\AdminController::getAllPosts
+
+listAllCategories:
+  path:       /admin/listAllCategories
+  controller: App\Controller\Main\AdminController::getAllCategories
+
+newCategory:
+  path:       /admin/newCategory
+  controller: App\Controller\Main\AdminController::newCategory
+
+deleteCategory:
+  path:       /admin/deleteCategory
+  controller: App\Controller\Main\AdminController::deleteCategory
 
 listCommentsOfUser:
   path:       /admin/listCommentsOfUser/{username}
-  controller: App\Controller\Main\IndexController::getCommentsOfUser
+  controller: App\Controller\Main\AdminController::getCommentsOfUser
 
 listAllComments:
   path:       /admin/listAllComments
-  controller: App\Controller\Main\IndexController::getAllComments
+  controller: App\Controller\Main\AdminController::getAllComments

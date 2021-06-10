@@ -23,11 +23,10 @@ class Post
      * @var string
      */
     private $title;
-    /*
-    * @ORM\Column(type="simple_array")
-    */
+
+
     /**
-     * @ORM\OneToMany(targetEntity="PostImagePost", mappedBy="post", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="PostImage", mappedBy="post", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="post_id")
      */
     private $imagePost;
@@ -44,7 +43,7 @@ class Post
     private $content;
 
   /**
-     * @ORM\ManyToMany(targetEntity="Hashtag", mappedBy="posts", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Hashtag", mappedBy="posts")
      */
     private $hashtags;
 
@@ -61,12 +60,12 @@ class Post
      *      )    
      */
     /**
-     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $createdBy;
     /**
-     * @ORM\ManyToOne(targetEntity="Category", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Category")
      */
     private $category;
      /**
@@ -76,7 +75,7 @@ class Post
     private $timesViewed;
 
     /**
-     * @ORM\OneToMany(targetEntity="PostReaction", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="PostReaction", mappedBy="reactedBy", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="user_id")
      */
     private $reaction;

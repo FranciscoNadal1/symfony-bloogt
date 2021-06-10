@@ -23,12 +23,16 @@ abstract class Reaction
      * @var boolean
      */
     private $reaction;
-    /**
+    /*
      * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="User",
      *      joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="reactedBy", referencedColumnName="id", unique=true)}
      *      )    
+     */
+    /**
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $reactedBy;
     /**

@@ -2,7 +2,9 @@
 
 namespace App\Controller\Main;
 
+use App\Entity\Post as Post;
 use App\Entity\User as User;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;
@@ -12,68 +14,29 @@ use Symfony\Component\Routing\RouterInterface;
 
 class IndexController extends AbstractController
 {
-    public function getAllApiRoutes(RouterInterface $router)
+    public function getAllPosts(PostRepository $postRepo, CategoryRepository $categoryRepo)
     {
-        $routes = $router->getRouteCollection();
 
-        $filteredRoutes = $routes;
-
-        $filteredRoutes = array();
-        foreach($routes as $dat) {
-            if(sizeof($dat->getMethods()) > 0)
-                $filteredRoutes[] = $dat;
-        }
-
-        return $this->render('adminTables/routesTable.html.twig', array(
-            'routes' => $filteredRoutes
+        $postData = $postRepo->findBy(array(), array('createdAt' => 'DESC'));
+        $categoryData = $categoryRepo->findAll();
+        return $this->render('main/postList.html.twig', array(
+            'Posts' => $postData,
+            'Categories' => $categoryData,
         ));
 
     }
-
-    public function getAllUsers(UserRepository $repo)
+    public function getAllPostsOfCategory(string $category, PostRepository $postRepo, CategoryRepository $categoryRepo)
     {
 
-            $users = $repo->findAll();
-        return $this->render('adminTables/userList.html.twig', array(
-            'users' => $users
+        $categoryObject = $categoryRepo->findOneBy(array('name' => $category));
+        $postData = $postRepo->findBy(array('category' => $categoryObject), array('createdAt' => 'DESC'));
+        $categoryData = $categoryRepo->findAll();
+        return $this->render('main/postList.html.twig', array(
+            'Posts' => $postData,
+            'Categories' => $categoryData,
+            'Category' => $category
         ));
 
-    }
-
-
-    public function getPostsOfUser(UserRepository $userRepo, string $username)
-    {
-        $users = $userRepo->findOneBy(array('username' => $username));
-
-        return $this->render('adminTables/postList.html.twig', array(
-            'posts' => $users->getPosts()
-        ));
-    }
-
-    public function getAllPosts(PostRepository $postRepo)
-    {
-        $posts = $postRepo->findAll();
-
-        return $this->render('adminTables/postList.html.twig', array(
-            'posts' => $posts
-        ));
-    }
-
-    public function getAllComments(CommentsRepository $commentRepo)
-    {
-        $comments = $commentRepo->findAll();
-
-        return $this->render('adminTables/commentList.html.twig', array(
-            'comments' => $comments
-        ));
-    }
-    public function getCommentsOfUser(UserRepository $userRepo, string $username)
-    {
-        $users = $userRepo->findOneBy(array('username' => $username));
-
-        return $this->render('adminTables/commentList.html.twig', array(
-            'comments' => $users->getComments()
-        ));
     }
 
 }

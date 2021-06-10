@@ -1,0 +1,37 @@
+{% extends "adminTables/mainLayout.html.twig" %}
+
+{% block body %}
+    <div class="createCategory form-group">
+        <form action="/admin/newCategory">
+            <label for="category">Create new Category: </label>
+            <input class="form-control" type="text" id="category" name="category"/>
+            <input class="btn btn-secondary btn-lg btn-block" type="submit" value="New Category">
+
+        </form>
+
+    </div>
+<table class="table  table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th>Category name</th>
+        <th>Post count</th>
+        <th>Delete category</th>
+
+
+    </tr>
+    </thead>
+
+    <tbody>
+{% for category in categories %}
+    <tr>
+        <td>{{ category.name }}</td>
+        <td>{{ category.getPostCount }}</td>
+        <td><a href="{{ path('deleteCategory', {id: category.id}) }}"><i class="glyphicon glyphicon-remove"></i></a></td>
+
+    </tr>
+{% endfor %}
+    </tbody>
+
+</table>
+
+{% endblock %}

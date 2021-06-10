@@ -1,0 +1,139 @@
+/*######################################
+    Header CSS
+######################################*/
+
+.headerProfilePic {
+    width:25px;
+    height:25px;
+    border-radius:50%;
+}
+/*######################################
+    SubHeader CSS
+######################################*/
+.subHeader{
+    background-color:#828489;
+    padding-bottom:20px;
+    padding-top:20px;
+}
+
+.businessLogo{
+    width:200px;
+}
+
+
+/*######################################
+    Sidebar CSS
+######################################*/
+.sidebarCategoryHeader{
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#1e5799+0,2989d8+50,207cca+51,7db9e8+100;Blue+Gloss+Default */
+    background: rgb(30,87,153); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(30,87,153,1) 0%, rgba(41,137,216,1) 50%, rgba(32,124,202,1) 51%, rgba(125,185,232,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+
+    color:white;
+    margin-bottom:20px;
+    padding:2px;
+}
+.mainSidebar{
+    background-color:#828489;
+
+    width:100% !important;
+    height: 100%;
+}
+.mainSidebar>  div{
+
+    padding-left:30px;
+    padding-right:30px;
+}
+
+/*######################################
+    Post list CSS
+######################################*/
+
+.postListElement{
+    margin:20px;
+    border:1px solid black;
+    border-radius:16px;
+    padding:10px;
+    background:white;
+}
+.postContent{
+    padding:15px;
+}
+.commentCount{
+    position:absolute;
+    height:30px;
+    width:30px;
+}
+.commentCount span{
+
+    padding-left:12px;
+    padding-right:12px;
+    padding-top:7px;
+    padding-bottom:7px;
+    position:relative;
+    top:-17px;
+    left:-17px;
+
+    border-radius:50%;
+    text-align:center;
+    color:white;
+
+
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#1e5799+0,2989d8+50,207cca+51,7db9e8+100;Blue+Gloss+Default */
+    background: rgb(30,87,153); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(30,87,153,1) 0%, rgba(41,137,216,1) 50%, rgba(32,124,202,1) 51%, rgba(125,185,232,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+
+}
+.categoryListTitle{
+    /*
+    background-color:blue;
+    */
+    width:100%;
+    margin-left:20px;
+    margin-right:20px;
+    color:white;
+    font-size:16px;
+    padding:3px;
+
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#1e5799+0,2989d8+50,207cca+51,7db9e8+100;Blue+Gloss+Default */
+    background: rgb(30,87,153); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(30,87,153,1) 0%, rgba(41,137,216,1) 50%, rgba(32,124,202,1) 51%, rgba(125,185,232,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+
+}
+.postAuthor{
+    text-align:right;
+    font-size:10px;
+}
+
+/*######################################
+        MainContent CSS
+######################################*/
+#Wrapper{
+    display:flex;
+    min-height:1000px;
+}
+
+.mainContent{
+    background-color:#828489;
+    height:100%;
+    padding-left:30px;
+    padding-right:30px;
+}
+
+.wrapper{
+    width:100%;
+}
+
+.navbar {
+    background-color:#272932 !important;
+    color:white !important;
+}

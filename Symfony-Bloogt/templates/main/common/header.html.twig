@@ -1,0 +1,50 @@
+
+
+<nav class="navbar navbar-expand-lg ">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse float-right" id="navbarNav">
+        <ul class="navbar-nav">
+
+         {% if is_granted('ROLE_USER') -%}
+            <li class="nav-item float-right">
+                <a class="nav-link" href="{{ path('profile') }}">
+
+                    {% if app.user.avatar == null %}
+                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="headerProfilePic"/>
+                    {% endif %}
+
+                    {% if app.user.avatar != null %}
+                        <img src="{{app.user.avatar}}" class="headerProfilePic"/>
+                    {% endif %}
+
+                </a>
+            </li>
+            <li class="nav-item float-right">
+                <a class="nav-link" href="{{ path('profile') }}">{{app.user.username}}</a>
+            </li>
+
+            <li class="nav-item float-right">
+                <a class="nav-link" href="{{ path('profile') }}"><i class="glyphicon glyphicon-user"></i></a>
+            </li>
+            <li class="nav-item float-right">
+                <a class="nav-link" href="{{ path('messages') }}"><i class="glyphicon glyphicon-envelope"></i></a>
+            </li>
+            <li class="nav-item float-right">
+                <a class="nav-link" href="{{ path('app_logout') }}"><i class="glyphicon glyphicon-off"></i></a>
+            </li>
+
+         {% else -%}
+         <li class="nav-item float-right">
+             <a class="nav-link" href="{{ path('login') }}">Login</a>
+         </li>
+             <li class="nav-item float-right">
+                 <a class="nav-link" href="{{ path('login') }}">Register</a>
+             </li>
+
+        {% endif -%}
+
+        </ul>
+    </div>
+</nav>
