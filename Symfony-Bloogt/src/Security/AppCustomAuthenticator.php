@@ -68,12 +68,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
         }
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
-/*
-        $user->setPosts(null);
-        $user->setComments(null);
-        $user->setFollowing(null);
-        $user->setChats(null);
-*/
+
         if (!$user) {
             throw new UsernameNotFoundException('Username could not be found.');
         }

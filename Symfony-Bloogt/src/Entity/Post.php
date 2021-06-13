@@ -19,7 +19,6 @@ class Post
     private $id;
      /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
      * @var string
      */
     private $title;
@@ -94,6 +93,8 @@ class Post
     public $sharedAt;
 
 
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     ///                 GETTERS AND SETTERS
     ///
@@ -112,9 +113,9 @@ class Post
      * @param $reaction
      */
 
-    public function __construct(string $title, DateTime $createdAt, string $content, $hashtags, $comments, $createdBy, $category, int $timesViewed, $reaction)
+    public function __construct(/*string $title, DateTime $createdAt, string $content, $hashtags, $comments, $createdBy, $category, int $timesViewed, $reaction*/)
     {
-
+/*
         $this->title = $title;
         $this->createdAt = $createdAt;
         $this->content = $content;
@@ -124,6 +125,8 @@ class Post
         $this->category = $category;
         $this->timesViewed = $timesViewed;
         $this->reaction = $reaction;
+*/
+        $this->createdAt = new \DateTime("now");
     }
 
 
@@ -146,7 +149,7 @@ class Post
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }

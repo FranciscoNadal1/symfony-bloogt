@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,7 +32,39 @@ class UserRepository extends ServiceEntityRepository
             return false;
         }
         return true;
+
 }
+    public function newUser($username, $password, $name, $surname, $email, $bio) : User
+    {
+        $user = new User();
+        try {
+
+
+            $user->setUsername($username);
+            $user->setPassword($password);
+            $user->setName($name);
+            $user->setSurname($surname);
+            $user->setEmail($email);
+            $user->setBio($bio);
+
+
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+
+            $roles = new Role($user, "ROLE_USER");
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($roles);
+            $entityManager->flush();
+
+            $user->setRoles($roles);
+
+        } catch (\Exception $e) {
+            return null;
+        }
+        return $user;
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

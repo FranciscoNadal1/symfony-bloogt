@@ -6,10 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @method string getUserIdentifier()
+ * @UniqueEntity("email")
+ * @UniqueEntity("username")
  */
 class User implements UserInterface
 {

@@ -1,0 +1,18 @@
+{% extends "main/mainLayout.html.twig" %}
+
+
+{% block body %}
+   <div id="PostCreatedSuccessfully">
+       <p>
+    Congratulations! You created the post :
+       <blockquote>
+{{ content }}
+
+       </blockquote>
+
+       of the category {{  categoryName }}
+       </p>
+   </div>
+
+
+{% endblock %}

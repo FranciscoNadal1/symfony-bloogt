@@ -7,6 +7,22 @@ index:
   path:       /
   controller: App\Controller\Main\IndexController::getAllPosts
 
+allPostsRandom:
+  path:       /random
+  controller: App\Controller\Main\IndexController::getAllPostsByRandom
+
+publish:
+  path:       /publish
+  controller: App\Controller\Main\IndexController::postCreation
+
+successPost:
+  path:       /success
+  controller: App\Controller\Main\IndexController::successPost
+
+successUser:
+  path:       /success
+  controller: App\Controller\Main\IndexController::successUser
+
 postById:
   path:       /post/{id}
   controller: App\Controller\Main\IndexController::getPostById
@@ -26,6 +42,10 @@ messages:
 login:
   path:       /login
   controller: App\Security\AppCustomAuthenticator::onAuthenticationSuccess()
+
+register:
+  path:       /register
+  controller: App\Controller\Main\IndexController::userCreation
 
 ##############################################################################
 ###############            ADMIN PANEL METHODS            ####################

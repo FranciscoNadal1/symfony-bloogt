@@ -43,6 +43,11 @@
         {% include 'main/common/header.html.twig' %}
 
 </header>
+{% for flash_message in app.session.flashbag.get('success') %}
+    <div class="flash-success alert alert-primary" >
+        {{ flash_message }}
+    </div>
+{% endfor %}
 <div id="Wrapper">
     <div class="wrapper">
 

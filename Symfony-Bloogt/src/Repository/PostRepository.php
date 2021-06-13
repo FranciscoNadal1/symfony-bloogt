@@ -19,6 +19,29 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
+    public function createNew($content, $category, $user) : bool
+    {
+        try{
+
+            $post = new Post();
+            $post->setContent($content);
+            $post->setCategory($category);
+            $post->setCreatedBy($user);
+            $post->setTitle("GenericPost");
+
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+        }catch(\Exception $e){
+            return false;
+        }
+        return true;
+
+
+    }
+
+
+
     // /**
     //  * @return Post[] Returns an array of Post objects
     //  */

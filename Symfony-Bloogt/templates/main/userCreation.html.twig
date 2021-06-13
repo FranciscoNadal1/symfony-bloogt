@@ -1,0 +1,21 @@
+{% form_theme postCreation 'bootstrap_4_layout.html.twig' %}
+
+{% extends 'main/mainLayout.html.twig' %}
+
+{% block title %}Publish{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+    {{ form_start(postCreation) }}
+
+    {{ form_widget(postCreation) }}
+
+    <input type="submit" value="Submit" class="btn btn-success">
+
+    {{ form_end(postCreation) }}
+
+</div>
+
+{% endblock %}
