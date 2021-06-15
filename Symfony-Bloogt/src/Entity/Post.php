@@ -48,16 +48,10 @@ class Post
 
     /**
      * @ORM\OneToMany(targetEntity="Comments", mappedBy="post", cascade={"all"}, orphanRemoval=true)
-     * @ORM\JoinColumn(name="comment_id")
+     * @ORM\JoinColumn(name="comment_id", onDelete="CASCADE")
      */
     private $comments;
-    /*
-     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
-     * @ORM\JoinTable(name="User",
-     *      joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", unique=true)}
-     *      )    
-     */
+
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -92,40 +86,15 @@ class Post
     public $sharedBy;
     public $sharedAt;
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     ///                 GETTERS AND SETTERS
     ///
-    /**
-     * Post constructor.
-     * @param $id
-     * @param string $title
-     * @param $imagePost
-     * @param DateTime $createdAt
-     * @param string $content
-     * @param $hashtags
-     * @param $comments
-     * @param $createdBy
-     * @param $category
-     * @param int $timesViewed
-     * @param $reaction
-     */
 
-    public function __construct(/*string $title, DateTime $createdAt, string $content, $hashtags, $comments, $createdBy, $category, int $timesViewed, $reaction*/)
+    public function __construct()
     {
-/*
-        $this->title = $title;
-        $this->createdAt = $createdAt;
-        $this->content = $content;
-        $this->hashtags = $hashtags;
-        $this->comments = $comments;
-        $this->createdBy = $createdBy;
-        $this->category = $category;
-        $this->timesViewed = $timesViewed;
-        $this->reaction = $reaction;
-*/
+
+
+        $this->setTimesViewed(0);
         $this->createdAt = new \DateTime("now");
     }
 
@@ -312,6 +281,35 @@ class Post
     {
         return sizeof($this->reaction);
     }
+
+    /**
+     * @return number
+     */
+    public function getPositiveReactionCount()
+    {
+        $positiveReactionCount = 0;
+        foreach ($this->reaction as $dat){
+            if($dat->isReaction() == true){
+                $positiveReactionCount++;
+            }
+        }
+        return $positiveReactionCount;
+    }
+
+    /**
+     * @return number
+     */
+    public function getNegativeReactionCount()
+    {
+        $negativeReactionCount = 0;
+        foreach ($this->reaction as $dat){
+            if($dat->isReaction() == false){
+                $negativeReactionCount++;
+            }
+        }
+        return $negativeReactionCount;
+    }
+
     /**
      * @param mixed $reaction
      */
@@ -407,8 +405,8 @@ class Post
             'createdBy' => User::MapDataToUserBasicDataProjection($Post->getCreatedBy()),
             'createdAt' => $Post->getCreatedAt(),
             'totalReactions' => $Post->getReactionCount(),
-            'negativeReactions' => 9999,
-            'positiveReactions' => 9999,
+            'negativeReactions' => $Post->getNegativeReactionCount(),
+            'positiveReactions' => $Post->getPositiveReactionCount(),
 
         ];
         return $data;
@@ -422,8 +420,8 @@ class Post
             'createdBy' => User::MapDataToUserBasicDataProjection($Post->getCreatedBy()),
             'createdAt' => $Post->getCreatedAt(),
             'totalReactions' => $Post->getReactionCount(),
-            'negativeReactions' => 9999,
-            'positiveReactions' => 9999,
+            'negativeReactions' => $Post->getNegativeReactionCount(),
+            'positiveReactions' => $Post->getPositiveReactionCount(),
             'comentaryCount' => sizeof($Post->getComments()),
             'timesViewed' => 9999,
             'category' => Category::MapDataCategoryOnlyNameProjection($Post->getCategory()),

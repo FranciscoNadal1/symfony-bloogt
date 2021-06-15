@@ -39,8 +39,20 @@ class PostRepository extends ServiceEntityRepository
 
 
     }
+    public function deletePostById($postId) : void{
+
+        $post = $this->findOneBy(array('id' => $postId));
+        $this->remove($post);
 
 
+
+    }
+    public function remove($post) : void{
+
+        $this->getEntityManager()->remove($post);
+        $this->getEntityManager()->flush();
+
+    }
 
     // /**
     //  * @return Post[] Returns an array of Post objects

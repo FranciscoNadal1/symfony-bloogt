@@ -67,7 +67,11 @@ class Comments
     private $notifications;
 
 
-
+    public function __construct()
+    {
+        $this->setRemovedByModerator(false);
+        $this->createdAt = new \DateTime("now");
+    }
 
 
     public function getId(): ?int

@@ -1,0 +1,37 @@
+
+    <div class="comentariosList">
+
+
+            {% for comment in Comments %}
+                <div class="comment">
+
+                    <div class="postListElement">
+                        <div class="postAuthor ">
+
+                            Posted by
+                            {% if comment.createdBy.avatar == null %}
+                                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="headerProfilePic"/>
+                            {% endif %}
+
+                            {% if comment.createdBy.avatar != null %}
+                                <img src="{{comment.createdBy.avatar}}" class="headerProfilePic"/>
+                            {% endif %}
+                            <span class="author"><a href="{{ path('profile', {username: comment.createdBy.username}) }}">{{ comment.createdBy.username }}</a></span>
+                            at
+                            {{ comment.createdAt }}
+
+
+                        </div>
+                        <div class="postContent">{{  comment.message }}</div>
+                        <div class="postReactions">
+
+                            <a class="col-6 float-left text-center"><i class="glyphicon glyphicon-thumbs-up"></i>  ({{ comment.reactionCount }})</a>
+                            <a class="col-6 float-right text-center"><i class="glyphicon glyphicon-thumbs-down"></i>  ({{ comment.reactionCount }})</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+    </div>

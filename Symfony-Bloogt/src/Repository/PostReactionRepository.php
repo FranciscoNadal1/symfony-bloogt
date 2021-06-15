@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Post;
 use App\Entity\PostReaction;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +21,21 @@ class PostReactionRepository extends ServiceEntityRepository
         parent::__construct($registry, PostReaction::class);
     }
 
+
+
+    public function newPostReaction(Post $post, bool $reaction, User $user){
+        $postReaction = new PostReaction();
+        $postReaction->setPost($post);
+        $postReaction->setReaction($reaction);
+        $postReaction->setReactedBy($user);
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($postReaction);
+        $entityManager->flush();
+
+
+
+    }
     // /**
     //  * @return PostReaction[] Returns an array of PostReaction objects
     //  */

@@ -78,3 +78,21 @@
 .postReactions{
     height:20px;
 }
+
+
+.commentPost textarea{
+    width:100% !important;
+    padding:10px;
+    height:150px;
+    margin:0px;
+}
+
+.commentPost{
+    background-color:white;
+    border:1px solid black;
+    padding:10px;
+}
+
+.commentPostWarning{
+    padding:20px;
+}

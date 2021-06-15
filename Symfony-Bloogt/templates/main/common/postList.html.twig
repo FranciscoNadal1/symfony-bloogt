@@ -1,0 +1,14 @@
+<div class="postListBody">
+    {% if Category is defined %}
+        <div class="categoryListTitle"> Listing category {{ Category }}</div>
+    {% endif %}
+
+    {% if Posts is defined %}
+        {% for post in Posts %}
+
+            {% include 'main/common/individualPost.html.twig' %}
+
+        {% endfor %}
+
+    {% endif %}
+</div>

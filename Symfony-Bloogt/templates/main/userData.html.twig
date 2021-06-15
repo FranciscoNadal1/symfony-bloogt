@@ -1,0 +1,53 @@
+<div class="profileButtons">
+    <button>
+        <a href="{{ path('profileShowPosts', {username: User.getUsername()}) }}">Posts</a>
+    </button>
+    <button>
+        <a href="{{ path('profileShowComments', {username: User.getUsername()}) }}">Comments</a>
+    </button>
+</div>
+
+<div class="profile">
+    <div class="profileAvatar col-3 float-left">
+
+        {% if User.avatar == null %}
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="profilePic"/>
+        {% endif %}
+
+        {% if User.avatar != null %}
+        <img src="{{User.avatar}}" class="profilePic"/>
+        {% endif %}
+    </div>
+    <div class="profileAvatar col-9 float-right">
+        <div class="profileDataField">
+            <div class="profileDataName">Username</div>
+            <div class="profileDataValue">
+                {{  User.getUsername() }}
+            </div>
+        </div>
+        <div class="profileDataField">
+            <div class="profileDataName">Name</div>
+            <div class="profileDataValue">
+                {{  User.name() }}
+            </div>
+        </div>
+        <div class="profileDataField">
+            <div class="profileDataName">Surname</div>
+            <div class="profileDataValue">
+                {{  User.surname() }}
+            </div>
+        </div>
+        <div class="profileDataField">
+            <div class="profileDataName">Number of posts</div>
+            <div class="profileDataValue">
+                {{  User.postNumber() }}
+            </div>
+        </div>
+        <div class="profileDataField">
+            <div class="profileDataName">Comment count</div>
+            <div class="profileDataValue">
+                {{  User.commentCount() }}
+            </div>
+        </div>
+    </div>
+</div>

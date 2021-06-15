@@ -1,0 +1,65 @@
+<div class="postListElement">
+    <div class="commentCount"><span>{{  post.commentCount }}</span></div>
+    <div class="postAuthor ">
+
+        {% set createdByUsername = post.createdBy.username %}
+
+
+        {# Check if user posted this #}
+        {% if app.user.username() is defined and app.user.username() == post.createdBy.username %}
+            You posted this
+
+            {# Check if user is not the owner of this #}
+        {% else %}
+
+            Posted by
+            {% if post.createdBy.avatar == null %}
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="headerProfilePic"/>
+            {% endif %}
+
+            {% if post.createdBy.avatar != null %}
+                <img src="{{post.createdBy.avatar}}" class="headerProfilePic"/>
+            {% endif %}
+            <span class="author"><a href="{{ path('profile', {username: createdByUsername}) }}">{{ createdByUsername }}</a></span>
+
+        {% endif %}
+
+
+
+
+
+
+        at
+        {{ post.createdAt }}
+        /
+        <a href={{ path('postsOfCategory', {category: post.category.name}) }}><span class="category">{{ post.category.name }}</span></a>
+
+
+        {# Only user and admins/moderators can delete this post #}
+        {% if (app.user.username() is defined and app.user.username() == post.createdBy.username) or (app.user.roles is defined and ("ROLE_ADMIN" in app.user.roles or "ROLE_MODERATOR" in app.user.roles)) %}
+            <span><a href="{{ path('deletePostNormalUser', {id: post.id}) }}"><i class="glyphicon glyphicon-remove"></i></a></span>
+        {% endif %}
+
+    </div>
+    <div class="postContent">
+        <a  href="{{ path('postById', {id: post.id}) }}">
+            {{  post.content }}
+        </a>
+    </div>
+    <div class="postReactions">
+
+        {% if app.user.username() is defined and app.user.reactionOfUserOfPost(post) != null and app.user.reactionOfUserOfPost(post).isReaction == true %}
+            <p class="col-6 float-left text-center"><i class="glyphicon glyphicon-thumbs-up"></i> You liked this ({{ post.positiveReactionCount }})</p>
+        {% else  %}
+            <a href="{{ path('votePost', {postId: post.id, reaction: 'true'}) }}" class="col-6 float-left text-center"><i class="glyphicon glyphicon-thumbs-up"></i> That's awesome! ({{ post.positiveReactionCount }})</a>
+        {% endif %}
+
+        {% if app.user.username() is defined and app.user.reactionOfUserOfPost(post)  != null and  app.user.reactionOfUserOfPost(post).isReaction == false %}
+            <p class="col-6 float-right text-center"><i class="glyphicon glyphicon-thumbs-down"></i> You disliked this ({{ post.negativeReactionCount }})</p>
+        {% else  %}
+            <a href="{{ path('votePost', {postId: post.id, reaction: 'false'}) }}" class="col-6 float-right text-center"><i class="glyphicon glyphicon-thumbs-down"></i> Meh... ({{ post.negativeReactionCount }})</a>
+        {% endif %}
+
+    </div>
+</div>
+

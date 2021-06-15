@@ -37,6 +37,19 @@ class PostController extends AbstractController
     }
 
     /**
+     * @Route("/getById/{id}", name="get post by id", methods={"GET"})
+     * @return Response
+     */
+    public function listPostById(PostRepository $repo, int $id): Response
+    {
+
+        $data = Post::MapDataToPostDataProjection($repo->findOneBy(array('id' => $id)));
+
+        return new JsonResponse($data, Response::HTTP_OK);
+
+    }
+
+    /**
      * @Route("/getAll/category/name/{category}", name="get all posts of category", methods={"GET"})
      * @return Response
      */

@@ -105,45 +105,19 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="Comments", mappedBy="createdBy")
      */
     private $comments;
-/*
-* @ORM\OneToMany(targetEntity="Comments", mappedBy="user", cascade={"all"}, fetch="EAGER", orphanRemoval=true)
-* @ORM\JoinColumn(name="user_id")
- */
-
 
     /**
-     * User constructor.
-     * @param string $username
-     * @param string $name
-     * @param string $surname
-     * @param string $email
-     * @param string $avatar
-     * @param string $background
-     * @param string $password
-     * @param string $bio
-     * @param DateTime $createdAt
-     * @param $roles
+     * @ORM\OneToMany(targetEntity="Reaction", mappedBy="reactedBy", cascade={"all"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="reaction_id", onDelete="CASCADE")
      */
+    private $reactions;
+
+
+
     public function __construct()
     {
-        /*
-        $this->username = $username;
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->email = $email;
-        */
-/*
-        if($this->avatar != null)
-            $this->avatar = $avatar;
 
-        if($this->background != null)
-            $this->background = $background;
-*/
-/*
-        $this->password = $password;
-        $this->bio = $bio;
-*/
-       // $this->roles = $roles;
+
 
         $this->createdAt = new \DateTime("now");
     }
@@ -408,6 +382,25 @@ class User implements UserInterface
     {
         return sizeof($this->getFollowing());
     }
+
+    /**
+     * @return mixed
+     */
+    public function getReactions()
+    {
+        return $this->reactions;
+    }
+
+
+    public function getReactionOfUserOfPost(Post $post){
+        foreach ($this->getReactions() as $reaction){
+            if($reaction->getPost() == $post)
+                return $reaction;
+        }
+        return null;
+
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     ///         DATA PROJECTIONS
     ///

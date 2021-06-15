@@ -41,8 +41,69 @@ abstract class Reaction
      */
     private $createdAt;
 
+    public function __construct()
+    {
+
+        $this->createdAt = new \DateTime("now");
+    }
+
+
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
+    /**
+     * @return bool
+     */
+    public function isReaction(): bool
+    {
+        return $this->reaction;
+    }
+
+    /**
+     * @param bool $reaction
+     */
+    public function setReaction(bool $reaction): void
+    {
+        $this->reaction = $reaction;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReactedBy()
+    {
+        return $this->reactedBy;
+    }
+
+    /**
+     * @param mixed $reactedBy
+     */
+    public function setReactedBy($reactedBy): void
+    {
+        $this->reactedBy = $reactedBy;
+    }
+
+    /**
+     * @return String
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt->format('Y-m-d h:m:s');
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+
 }

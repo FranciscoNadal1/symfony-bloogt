@@ -10,6 +10,7 @@
         <th>Content</th>
         <th>CommentCount</th>
         <th>Hashtags</th>
+        <th>Delete</th>
 
 
     </tr>
@@ -35,6 +36,8 @@
             {% endfor %}
 
         </td>
+
+        <td><a href="{{ path('deletePost', {id: post.id}) }}"><i class="glyphicon glyphicon-remove"></i></a></td>
     </tr>
 {% endfor %}
     </tbody>

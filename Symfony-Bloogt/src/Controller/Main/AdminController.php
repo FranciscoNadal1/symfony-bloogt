@@ -99,6 +99,20 @@ class AdminController extends AbstractController
         ));
     }
 
+    public function deletePost(PostRepository $postRepo)
+    {
+        $postId = $_GET["id"];
+
+
+        $post = $postRepo->findOneBy(array('id' => $postId));
+
+        if($post != null)
+            $postRepo->deletePostById($postId);
+
+        $this->addFlash('success', 'The post is deleted successfully');
+        return $this->redirectToRoute('listAllPosts');
+    }
+
     public function getAllComments(CommentsRepository $commentRepo)
     {
         $comments = $commentRepo->findAll();

@@ -31,6 +31,15 @@
             <li class="nav-item ">
                 <a class="nav-link" href="{{ path('messages') }}"><i class="glyphicon glyphicon-envelope"></i></a>
             </li>
+
+
+            {% if app.user.roles is defined and "ROLE_ADMIN" in app.user.roles %}
+                 <li class="nav-item ">
+                     <a class="nav-link" href="{{ path('listAllUsers') }}"><i class="glyphicon glyphicon-stats"></i></a>
+                 </li>
+            {% endif %}
+
+
             <li class="nav-item ">
                 <a class="nav-link" href="{{ path('app_logout') }}"><i class="glyphicon glyphicon-off"></i></a>
             </li>

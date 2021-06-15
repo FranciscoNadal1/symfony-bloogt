@@ -8,6 +8,7 @@ use App\Form\PostCreationForm;
 use App\Form\UserCreationForm;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentsRepository;
+use App\Repository\PostReactionRepository;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -71,6 +72,80 @@ class IndexController extends AbstractController
         ));
 
     }
+
+    public function getUserProfilePosts(UserRepository $userRepo, CategoryRepository $categoryRepo, PostRepository $postRepo, string $username)
+    {
+
+        $UserData = $userRepo->findOneBy(array('username' => $username));
+        $categoryData = $categoryRepo->findAll();
+
+
+        $postData = $postRepo->findBy(array('createdBy' => $UserData), array('createdAt' => 'DESC'));
+
+        return $this->render('main/userProfilePosts.html.twig', array(
+            'User' => $UserData,
+            'Categories' => $categoryData,
+            'Posts' =>$postData
+        ));
+
+    }
+
+    public function deletePost(PostRepository $postRepo, UserInterface $user)
+    {
+        $postId = $_GET["id"];
+
+
+        $post = $postRepo->findOneBy(array('id' => $postId));
+
+        if($post != null and $user == $post->getCreatedBy() or (in_array("ROLE_ADMIN", $user->getRoles()) or in_array("ROLE_MODERATOR",$user->getRoles())))
+            $postRepo->deletePostById($postId);
+
+        $this->addFlash('success', 'The post was deleted');
+        return $this->redirectToRoute('index');
+    }
+
+    public function sendComment(PostRepository $postRepo,CommentsRepository $commentsRepo, UserInterface $user, string $id)
+    {
+        $commentcontent = $_POST["commentContent"];
+        $post = $postRepo->findOneBy(array('id' => $id));
+
+
+        if($commentsRepo->createNew($commentcontent, $post, $user) == true){
+
+            $this->addFlash('success', 'The comment was published');
+            return $this->redirectToRoute('postById', array('id' => $id));
+        }
+        else{
+
+            $this->addFlash('success', 'The comment wasn\'t published');
+            return $this->redirectToRoute('postById', array('id' => $id));
+        }
+
+//        $post = $postRepo->findOneBy(array('id' => $postId));
+
+/*
+        if($post != null and $user == $post->getCreatedBy() or (in_array("ROLE_ADMIN", $user->getRoles()) or in_array("ROLE_MODERATOR",$user->getRoles())))
+            $postRepo->deletePostById($postId);
+*/
+    }
+
+
+    public function getUserProfileComments(UserRepository $userRepo, CommentsRepository $commentRepo, CategoryRepository $categoryRepo, string $username)
+    {
+
+        $UserData = $userRepo->findOneBy(array('username' => $username));
+        $categoryData = $categoryRepo->findAll();
+
+        $commentData = $commentRepo->findBy(array('createdBy' => $UserData), array('createdAt' => 'DESC'));
+
+        return $this->render('main/userProfileComments.html.twig', array(
+            'User' => $UserData,
+            'Categories' => $categoryData,
+            'Comments' => $commentData
+        ));
+
+    }
+
 
     public function getAllPostsOfCategory(string $category, PostRepository $postRepo, CategoryRepository $categoryRepo)
     {
@@ -158,14 +233,7 @@ class IndexController extends AbstractController
 
 
             return $this->redirectToRoute('login');
-/*
-            return $this->render('main/postList.html.twig', [
-                'username' => $username,
-                'Categories' => $categoryData
-            ]);
 
-
-            */
         }
 
         return $this->render('main/userCreation.html.twig', [
@@ -182,6 +250,45 @@ class IndexController extends AbstractController
         ));
 
     }
+
+    public function votePost(UserRepository $userRepo, PostRepository $postRepo, PostReactionRepository $postReactionRepo, UserInterface $user, int $postId, string $reaction)
+    {
+
+
+
+        $userData = $userRepo->findOneBy(array('username' => $user->getUsername()));
+        $postData = $postRepo->findOneBy(array('id' => $postId));
+
+
+
+        $reactionFromDatabase = null;
+    if($userData->getReactionOfUserOfPost($postData) != null)
+        $reactionFromDatabase = $userData->getReactionOfUserOfPost($postData)->isReaction();
+
+
+  //      $this->addFlash('success', $reactionFromDatabase . $reaction);
+     //   return $this->redirectToRoute('postById', array('id' => $postId));
+/*
+        if($reactionFromDatabase != null and $reactionFromDatabase != $reaction){
+
+            $this->addFlash('success', 'Es distinto!!!');
+            return $this->redirectToRoute('postById', array('id' => $postId));
+        }
+*/
+
+
+        if($reaction == "true")
+            $reactBool = true;
+        else
+            $reactBool = false;
+
+        $postReactionRepo->newPostReaction($postData, $reactBool, $user);
+
+
+        $this->addFlash('success', 'You voted this post successfully');
+        return $this->redirectToRoute('postById', array('id' => $postId));
+    }
+
     public function successUser(CategoryRepository $categoryRepo)
     {
 
