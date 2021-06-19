@@ -6,7 +6,7 @@
     {% if Posts is defined %}
         {% for post in Posts %}
 
-            {% include 'main/common/individualPost.html.twig' %}
+            {% include 'main/common/individualPost.html.twig' with {post: post} %}
 
         {% endfor %}
 

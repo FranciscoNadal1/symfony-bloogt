@@ -394,8 +394,12 @@ class User implements UserInterface
 
     public function getReactionOfUserOfPost(Post $post){
         foreach ($this->getReactions() as $reaction){
-            if($reaction->getPost() == $post)
-                return $reaction;
+
+
+            if(method_exists( $reaction, 'getPost'))
+                if($reaction->getPost() == $post)
+                    return $reaction;
+
         }
         return null;
 
@@ -419,12 +423,12 @@ class User implements UserInterface
 
     public static function UserData($User){
 
-      //  $role = $User->getRoles();
+        if($User ==null)
+            return null;
 
-       // dump($User->getComments());
         $data =[
             'id' => $User->getId(),
-          'username' => $User->getUsername(),
+            'username' => $User->getUsername(),
             'name' => $User->getName(),
             'surname' => $User->getSurname(),
 
@@ -464,6 +468,8 @@ class User implements UserInterface
         }
     }
     public static function UserBasicData($User){
+        if($User ==null)
+            return null;
 
         $data =[
             'id' => $User->getId(),

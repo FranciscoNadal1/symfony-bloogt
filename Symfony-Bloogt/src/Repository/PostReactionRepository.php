@@ -36,6 +36,20 @@ class PostReactionRepository extends ServiceEntityRepository
 
 
     }
+
+    public function remove($reaction) : bool{
+
+        try{
+            $this->getEntityManager()->remove($reaction);
+            $this->getEntityManager()->flush();
+            return true;
+        }catch(\Exception $e){
+            return false;
+        }
+
+    }
+
+
     // /**
     //  * @return PostReaction[] Returns an array of PostReaction objects
     //  */

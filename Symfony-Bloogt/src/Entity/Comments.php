@@ -159,6 +159,36 @@ class Comments
             return 0;
         return sizeof($this->reaction);
     }
+
+
+    /**
+     * @return number
+     */
+    public function getPositiveReactionCount()
+    {
+        $positiveReactionCount = 0;
+        foreach ($this->reaction as $dat){
+            if($dat->isReaction() == true){
+                $positiveReactionCount++;
+            }
+        }
+        return $positiveReactionCount;
+    }
+
+
+    /**
+     * @return number
+     */
+    public function getNegativeReactionCount()
+    {
+        $negativeReactionCount = 0;
+        foreach ($this->reaction as $dat){
+            if($dat->isReaction() == false){
+                $negativeReactionCount++;
+            }
+        }
+        return $negativeReactionCount;
+    }
     /**
      * @param mixed $reaction
      */

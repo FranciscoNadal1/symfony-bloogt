@@ -25,8 +25,9 @@
                         <div class="postContent">{{  comment.message }}</div>
                         <div class="postReactions">
 
-                            <a class="col-6 float-left text-center"><i class="glyphicon glyphicon-thumbs-up"></i>  ({{ comment.reactionCount }})</a>
-                            <a class="col-6 float-right text-center"><i class="glyphicon glyphicon-thumbs-down"></i>  ({{ comment.reactionCount }})</a>
+                            <a  href="{{ path('voteComment', {commentId: comment.id, reaction: 'true'}) }}"  class="col-6 float-left text-center"><i class="glyphicon glyphicon-thumbs-up"></i>  ({{ comment.positiveReactionCount }})</a>
+                            <a  href="{{ path('voteComment', {commentId: comment.id, reaction: 'false'}) }}"   class="col-6 float-right text-center"><i class="glyphicon glyphicon-thumbs-down"></i>  ({{ comment.negativeReactionCount }})</a>
+
 
 
                         </div>

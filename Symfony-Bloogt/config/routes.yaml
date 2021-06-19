@@ -5,47 +5,47 @@
 
 index:
   path:       /
-  controller: App\Controller\Main\IndexController::getAllPosts
+  controller: App\Controller\Main\PostController::getAllPosts
 
 allPostsRandom:
   path:       /random
-  controller: App\Controller\Main\IndexController::getAllPostsByRandom
+  controller: App\Controller\Main\PostController::getAllPostsByRandom
 
 publish:
   path:       /publish
-  controller: App\Controller\Main\IndexController::postCreation
+  controller: App\Controller\Main\PostController::postCreation
 
 successPost:
   path:       /success
-  controller: App\Controller\Main\IndexController::successPost
+  controller: App\Controller\Main\PostController::successPost
 
 successUser:
   path:       /success
-  controller: App\Controller\Main\IndexController::successUser
+  controller: App\Controller\Main\UserController::successUser
 
 postById:
   path:       /post/{id}
-  controller: App\Controller\Main\IndexController::getPostById
+  controller: App\Controller\Main\PostController::getPostById
 
 postsOfCategory:
   path:       /category/{category}
-  controller: App\Controller\Main\IndexController::getAllPostsOfCategory
+  controller: App\Controller\Main\PostController::getAllPostsOfCategory
 
 profile:
   path:       /profile/{username}
-  controller: App\Controller\Main\IndexController::getUserProfile
+  controller: App\Controller\Main\UserController::getUserProfile
 
 profileShowPosts:
   path:       /profile/{username}/posts
-  controller: App\Controller\Main\IndexController::getUserProfilePosts
+  controller: App\Controller\Main\UserController::getUserProfilePosts
 
 profileShowComments:
   path:       /profile/{username}/comments
-  controller: App\Controller\Main\IndexController::getUserProfileComments
+  controller: App\Controller\Main\UserController::getUserProfileComments
 
 messages:
   path:       /messages
-  controller: App\Controller\Main\IndexController::getAllApiRoutes
+  controller: App\Controller\Main\AdminController::getAllApiRoutes
 
 login:
   path:       /login
@@ -53,11 +53,11 @@ login:
 
 register:
   path:       /register
-  controller: App\Controller\Main\IndexController::userCreation
+  controller: App\Controller\Main\UserController::userCreation
 
 deletePostNormalUser:
   path:       /deletePost
-  controller: App\Controller\Main\IndexController::deletePost
+  controller: App\Controller\Main\PostController::deletePost
 
 sendCommentToPost:
   path:       /post/{id}/sendComment
@@ -65,7 +65,11 @@ sendCommentToPost:
 
 votePost:
   path:       /post/reaction/{postId}/{reaction}
-  controller: App\Controller\Main\IndexController::votePost
+  controller: App\Controller\Main\PostController::votePost
+
+voteComment:
+  path:       /comment/reaction/{commentId}/{reaction}
+  controller: App\Controller\Main\PostController::voteComment
 ##############################################################################
 ###############            ADMIN PANEL METHODS            ####################
 ###############                                           ####################
@@ -101,6 +105,10 @@ deleteCategory:
 deletePost:
   path:       /admin/deletePost
   controller: App\Controller\Main\AdminController::deletePost
+
+deleteUser:
+  path:       /admin/deleteUser
+  controller: App\Controller\Main\IndexController::deleteUser
 
 listCommentsOfUser:
   path:       /admin/listCommentsOfUser/{username}

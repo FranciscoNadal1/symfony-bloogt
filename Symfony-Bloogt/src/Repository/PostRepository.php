@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -36,21 +37,57 @@ class PostRepository extends ServiceEntityRepository
             return false;
         }
         return true;
-
-
     }
+
+    public function create($post) : bool
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($post);
+        $entityManager->flush();
+    }
+
     public function deletePostById($postId) : void{
 
         $post = $this->findOneBy(array('id' => $postId));
         $this->remove($post);
-
-
-
     }
+
+
     public function remove($post) : void{
 
         $this->getEntityManager()->remove($post);
         $this->getEntityManager()->flush();
+
+    }
+
+    public function getBestPostLastHour(){
+
+        try {
+            $sql = 'SELECT post.id FROM reaction, post, category where reaction.dtype = \'postreaction\' and reaction.reaction = true	and reaction.created_at >= DATE_SUB(NOW(),INTERVAL 1 HOUR) 	and post.id = reaction.post_id	and post.category_id = category.id	group by reaction.post_id order by count(*) desc  limit 0, 1 ';
+            $em = $this->getEntityManager();
+            $stmt = $em->getConnection()->executeQuery($sql);
+
+            $post = $this->findOneBy(array('id' => $stmt->fetchOne()));
+            return $post;
+        } catch (Exception $e) {
+            return null;
+        }
+
+       // $query = $this->getEntityManager()->createNativeQuery();
+     //   $query = $this->getEntityManager()->create
+    //    $post = $query->getResult();
+/*
+        $this->createQueryBuilder('p')->
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+*/
+    //    return $post;
 
     }
 

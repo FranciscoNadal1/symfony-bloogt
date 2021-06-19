@@ -12,6 +12,7 @@
         <th>Comments</th>
         <th>Following</th>
         <th>Followers</th>
+        <th>Delete user</th>
 
     </tr>
     </thead>
@@ -39,6 +40,7 @@
         <td><a href="{{ path('listCommentsOfUser', {username: user.getUsername()}) }}">{{ user.getCommentCount() }}</a></td>
         <td>{{ user.getFollowingCount() }}</td>
         <td></td>
+        <td><a href="{{ path('deleteUser', {id: user.id}) }}"><i class="glyphicon glyphicon-remove"></i></a></td>
     </tr>
 {% endfor %}
     </tbody>

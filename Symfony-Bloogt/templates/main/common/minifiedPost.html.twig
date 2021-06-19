@@ -1,0 +1,14 @@
+<div class="minifiedPostListElement">
+    <div class="minifiedPostHeader">
+        {% if title is defined %}
+            {{ title }}
+        {% endif %}
+    </div>
+     <div class="postContent">
+        <a  href="{{ path('postById', {id: post.id}) }}">
+            {{  post.content }}
+        </a>
+    </div>
+
+</div>
+

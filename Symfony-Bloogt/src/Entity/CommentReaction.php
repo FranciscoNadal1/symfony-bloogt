@@ -17,4 +17,19 @@ class CommentReaction extends Reaction
      */
     private $comment;
 
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param mixed $post
+     */
+    public function setComment($comment): void
+    {
+        $this->comment = $comment;
+    }
 }

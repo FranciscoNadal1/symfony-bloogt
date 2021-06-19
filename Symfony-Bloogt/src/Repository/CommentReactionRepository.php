@@ -3,6 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\CommentReaction;
+use App\Entity\Comments;
+use App\Entity\Post;
+use App\Entity\PostReaction;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,6 +22,32 @@ class CommentReactionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CommentReaction::class);
     }
+
+
+    public function newCommentReaction(Comments $comment, bool $reaction, User $user){
+        $commentReaction = new CommentReaction();
+        $commentReaction->setComment($comment);
+        $commentReaction->setReaction($reaction);
+        $commentReaction->setReactedBy($user);
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($commentReaction);
+        $entityManager->flush();
+    }
+
+    public function remove($reaction) : bool{
+
+        try{
+            $this->getEntityManager()->remove($reaction);
+            $this->getEntityManager()->flush();
+            return true;
+        }catch(\Exception $e){
+            return false;
+        }
+
+    }
+
+
 
     // /**
     //  * @return CommentReaction[] Returns an array of CommentReaction objects

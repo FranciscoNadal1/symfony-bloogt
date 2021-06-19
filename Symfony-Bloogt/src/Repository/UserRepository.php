@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -18,16 +19,21 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
  */
 class UserRepository extends ServiceEntityRepository
 {
+
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
     public function __construct(ManagerRegistry $registry)
     {
+        $this->entityManager = $this->getEntityManager();
         parent::__construct($registry, User::class);
     }
 
     public function save($user) : bool{
         try{
-            $entityManager = $this->getEntityManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+        //    $entityManager = $this->getEntityManager();
+            $this->getEntityManager()->persist($user);
+            $this->getEntityManager()->flush();
         }catch(\Exception $e){
             return false;
         }
@@ -39,7 +45,6 @@ class UserRepository extends ServiceEntityRepository
         $user = new User();
         try {
 
-
             $user->setUsername($username);
             $user->setPassword($password);
             $user->setName($name);
@@ -47,23 +52,37 @@ class UserRepository extends ServiceEntityRepository
             $user->setEmail($email);
             $user->setBio($bio);
 
-
-            $entityManager = $this->getEntityManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
+            $this->getEntityManager()->persist($user);
+            $this->getEntityManager()->flush();
 
             $roles = new Role($user, "ROLE_USER");
-            $entityManager = $this->getEntityManager();
-            $entityManager->persist($roles);
-            $entityManager->flush();
+
+            $this->getEntityManager()->persist($roles);
+            $this->getEntityManager()->flush();
 
             $user->setRoles($roles);
 
+
         } catch (\Exception $e) {
+            print_r($e);
             return null;
         }
-        return $user;
+  //      $returnedUser = $this->findOneBy(array('username' => $username));
+        $returnedUser = $user;
+
+        return $returnedUser;
+    }
+
+    public function remove($user) : bool{
+
+        try{
+            $this->getEntityManager()->remove($user);
+            $this->getEntityManager()->flush();
+                return true;
+        }catch(\Exception $e){
+            return false;
+        }
+
     }
     // /**
     //  * @return User[] Returns an array of User objects
