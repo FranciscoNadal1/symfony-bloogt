@@ -7,9 +7,20 @@ index:
   path:       /
   controller: App\Controller\Main\PostController::getAllPosts
 
+sendCommentToPost:
+  path:       /post/{id}/sendComment
+  controller: App\Controller\Main\IndexController::sendComment
+
+  ##############################################################################
+  ###############            Post routes                    ####################
+
 allPostsRandom:
   path:       /random
   controller: App\Controller\Main\PostController::getAllPostsByRandom
+
+allFollowedUsersPost:
+  path:       /followed
+  controller: App\Controller\Main\PostController::getAllPostsOfFollowedUsers
 
 publish:
   path:       /publish
@@ -19,9 +30,6 @@ successPost:
   path:       /success
   controller: App\Controller\Main\PostController::successPost
 
-successUser:
-  path:       /success
-  controller: App\Controller\Main\UserController::successUser
 
 postById:
   path:       /post/{id}
@@ -30,6 +38,28 @@ postById:
 postsOfCategory:
   path:       /category/{category}
   controller: App\Controller\Main\PostController::getAllPostsOfCategory
+
+deletePostNormalUser:
+  path:       /deletePost
+  controller: App\Controller\Main\PostController::deletePost
+
+votePost:
+  path:       /post/reaction/{postId}/{reaction}
+  controller: App\Controller\Main\PostController::votePost
+
+voteComment:
+  path:       /comment/reaction/{commentId}/{reaction}
+  controller: App\Controller\Main\PostController::voteComment
+
+
+
+
+  ##############################################################################
+  ###############            User routes                    ####################
+
+successUser:
+  path:       /success
+  controller: App\Controller\Main\UserController::successUser
 
 profile:
   path:       /profile/{username}
@@ -43,6 +73,34 @@ profileShowComments:
   path:       /profile/{username}/comments
   controller: App\Controller\Main\UserController::getUserProfileComments
 
+
+account:
+  path:       /account
+  controller: App\Controller\Main\UserController::accountIndex
+
+accountAportations:
+  path:       /account/aportations
+  controller: App\Controller\Main\UserController::accountUserAportations
+
+accountNetwork:
+  path:       /account/network
+  controller: App\Controller\Main\UserController::accountNetwork
+
+register:
+  path:       /register
+  controller: App\Controller\Main\UserController::userCreation
+
+
+followUser:
+  path:       /follow/{username}
+  controller: App\Controller\Main\UserController::followUser
+
+unfollowUser:
+  path:       /unfollow/{username}
+  controller: App\Controller\Main\UserController::unfollowUser
+
+
+
 messages:
   path:       /messages
   controller: App\Controller\Main\AdminController::getAllApiRoutes
@@ -50,26 +108,6 @@ messages:
 login:
   path:       /login
   controller: App\Security\AppCustomAuthenticator::onAuthenticationSuccess()
-
-register:
-  path:       /register
-  controller: App\Controller\Main\UserController::userCreation
-
-deletePostNormalUser:
-  path:       /deletePost
-  controller: App\Controller\Main\PostController::deletePost
-
-sendCommentToPost:
-  path:       /post/{id}/sendComment
-  controller: App\Controller\Main\IndexController::sendComment
-
-votePost:
-  path:       /post/reaction/{postId}/{reaction}
-  controller: App\Controller\Main\PostController::votePost
-
-voteComment:
-  path:       /comment/reaction/{commentId}/{reaction}
-  controller: App\Controller\Main\PostController::voteComment
 ##############################################################################
 ###############            ADMIN PANEL METHODS            ####################
 ###############                                           ####################

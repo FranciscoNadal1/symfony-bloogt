@@ -13,6 +13,7 @@ use App\Repository\PostReactionRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Services\PostService;
+use App\Services\UserService;
 use App\Services\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ class PostController extends AbstractController
 
         $_SESSION['uri'] = $request->getRequestUri();
         $postData = $postRepo->findBy(array(), array('createdAt' => 'DESC'));
-        return $this->render('main/postList.html.twig', array(
+        return $this->render('main/routes/postList.html.twig', array(
             'Posts' => $postData,
             'UtilsCommonVars' => $utils->getVars()
         ));
@@ -44,7 +45,7 @@ class PostController extends AbstractController
         $postData = $postService->getAllPosts();
         shuffle($postData);
 
-        return $this->render('main/postList.html.twig', array(
+        return $this->render('main/routes/postList.html.twig', array(
             'Posts' => $postData,
             'UtilsCommonVars' => $utils->getVars()
         ));
@@ -60,7 +61,7 @@ class PostController extends AbstractController
        // $postData = $postRepo->findOneBy(array('id' => $id));
         $postData = $postService->getPostById($id);
 
-        return $this->render('main/postDetails.html.twig', array(
+        return $this->render('main/routes/postDetails.html.twig', array(
             'post' => $postData,
             'UtilsCommonVars' => $utils->getVars()
         ));
@@ -96,7 +97,7 @@ class PostController extends AbstractController
 
 
 
-        return $this->render('main/postList.html.twig', array(
+        return $this->render('main/routes/postList.html.twig', array(
             'Posts' => $postData,
             'Category' => $category,
             'UtilsCommonVars' => $utils->getVars()
@@ -104,6 +105,23 @@ class PostController extends AbstractController
 
     }
 
+    public function getAllPostsOfFollowedUsers(Request $request, PostService $postService, Utils $utils, UserInterface $user, UserService $userService)
+    {
+
+        $_SESSION['uri'] = $request->getRequestUri();
+    //    $postData = $postService->getAllPostsOfCategory($category);
+
+        $UserData = $userService->getUserByUsername($user->getUsername());
+        $postData = $postService->getAllPostsFollowedBy($UserData);
+
+
+        return $this->render('main/routes/postList.html.twig', array(
+            'Posts' => $postData,
+            'Category' => "followed users",
+            'UtilsCommonVars' => $utils->getVars()
+        ));
+
+    }
 
     public function postCreation(Request $request, CategoryRepository $categoryRepo, PostRepository $postRepo, UserInterface $user, Utils $utils): Response
     {
@@ -123,16 +141,19 @@ class PostController extends AbstractController
 
             $this->addFlash('success', 'The post is created successfully');
 
+
+            return $this->redirectToRoute('index');
+            /*
             return $this->render('main/successPostCreated.html.twig', [
                 'content' => $content,
                 'categoryName' => $category->getName(),
                 'UtilsCommonVars' => $utils->getVars()
             ]);
-
-            return $this->redirectToRoute('index');
+*/
+//            return $this->redirectToRoute('index');
         }
 
-        return $this->render('main/postCreation.html.twig', [
+        return $this->render('main/routes/postCreation.html.twig', [
             'postCreation' => $postForm->createView(),
             'UtilsCommonVars' => $utils->getVars()
         ]);

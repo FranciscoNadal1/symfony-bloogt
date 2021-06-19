@@ -1,0 +1,36 @@
+{% extends "main/routes/account/accountLayout.html.twig" %}
+
+
+{% block body %}
+
+    <div class="card bg-light mb-3">
+        <div class="card-header">Following</div>
+        <div class="card-text">
+
+    {% for following in User.following %}
+        <ul class="list-group">
+            <li class="list-group-item ">
+                <div class="row">
+                    <div class="col-3">
+                        {% if following.avatar == null %}
+                            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"  alt="Admin" class="rounded-circle" width="150">
+                        {% endif %}
+
+                        {% if following.avatar != null %}
+                            <img src="{{following.avatar}}"  alt="Admin" class="rounded-circle" width="150">
+                        {% endif %}
+
+                    </div>
+                    <div class="col-9">
+                        {{  following.username }}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    {% endfor %}
+
+
+
+        </div>
+    </div>
+{% endblock %}

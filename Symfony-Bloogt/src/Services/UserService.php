@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use mysql_xdevapi\Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserService
 {
@@ -71,5 +72,32 @@ class UserService
         }
 
         return $user;
+    }
+
+    public function userFollowUser(string $username, string $userToFollowUsername): void
+    {
+        /** @var User|null $user */
+        $user = $this->userRepository->findOneBy(array('username' => $username));
+        /** @var User|null $user */
+        $userToFollow = $this->userRepository->findOneBy(array('username' => $userToFollowUsername));
+
+        $user->getFollowing()->add($userToFollow);
+
+        $this->userRepository->save($user);
+
+    }
+
+    public function userUnfollowUser(string $username, string $userToFollowUsername): void
+    {
+        /** @var User|null $user */
+        $user = $this->userRepository->findOneBy(array('username' => $username));
+        /** @var User|null $user */
+        $userToFollow = $this->userRepository->findOneBy(array('username' => $userToFollowUsername));
+
+        $user->getFollowing()->removeElement($userToFollow);
+
+        $this->userRepository->save($user);
+
+
     }
 }

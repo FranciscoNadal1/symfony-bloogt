@@ -1,0 +1,18 @@
+
+<div>
+
+    <a href="{{ path('account') }}"><button class="btn btn-secondary btn-lg">Home</button></a>
+    <a href="{{ path('accountAportations') }}"><button class="btn btn-secondary btn-lg">My aportations</button></a>
+    <a href="{{ path('accountNetwork') }}"><button class="btn btn-secondary btn-lg">My network</button></a>
+    <button class="btn btn-secondary btn-lg">Private Messages</button>
+
+
+
+    <div class="float-right">
+
+        <a href="{{ path('profile', {username: app.user.username()}) }}">
+            <button class="btn btn btn-light btn-lg">My profile</button>
+        </a>
+        <button class="btn btn btn-light btn-lg">My account</button>
+    </div>
+</div>

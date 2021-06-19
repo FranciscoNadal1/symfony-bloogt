@@ -136,9 +136,9 @@ class Comments
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param \DateTime $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }

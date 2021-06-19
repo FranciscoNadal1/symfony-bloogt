@@ -10,6 +10,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 
 class PostService
 {
@@ -22,13 +23,16 @@ class PostService
     /** @var CategoryRepository  */
     private $categoryRepository;
 
+    /** @var UserService  */
+    private $userService;
 
 
-    public function __construct(EntityManagerInterface $entityManager, PostRepository $postRepository, CategoryRepository $categoryRepository)
+    public function __construct(EntityManagerInterface $entityManager, PostRepository $postRepository, CategoryRepository $categoryRepository, UserService $userService)
     {
         $this->entityManager = $entityManager;
         $this->postRepository = $postRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->userService = $userService;
     }
 
 
@@ -62,15 +66,9 @@ class PostService
 
     public function getMoreVotedPostLastHour()
     {
-      //  $query = $this->postRepository->getEntityManager()->createQuery('SELECT post.* FROM .reaction, .post, .category where reaction.dtype = \'postreaction\' and reaction.reaction = true	and reaction.created_at >= DATE_SUB(NOW(),INTERVAL 1 HOUR) 	and post.id = reaction.post_id	and post.category_id = category.id	group by reaction.post_id order by count(*) desc  limit 0, 1 ');
-
 
         /** @var Post|null $post */
-     //   $post = $query->getResult();
-
         $post = $this->postRepository->getBestPostLastHour();
-
-        // $query = $em->createQuery('SELECT post.* FROM .reaction, .post, .category where reaction.dtype = \'postreaction\' and reaction.reaction = true	and reaction.created_at >= DATE_SUB(NOW(),INTERVAL 1 HOUR) 	and post.id = reaction.post_id	and post.category_id = category.id	group by reaction.post_id order by count(*) desc');
 
         if (is_null($post)) {
             return null;
@@ -88,6 +86,26 @@ class PostService
         }
 
         return $post;
+    }
+
+    public function getAllPostsCreatedBy(User $user)
+    {
+        /** @var PersistentCollection|Post|null $post */
+        $post = $this->postRepository->findBy(array('createdBy' => $user), array('createdAt' => 'DESC'));
+
+        return $post;
+    }
+
+    public function getAllPostsFollowedBy(User $user)
+    {
+
+        $usersFollowing = $user->getFollowing();
+
+        $postData = array();
+        foreach($usersFollowing as $userFollowed){
+            $postData = array_merge($postData, $userFollowed->getPosts()->getValues());
+        }
+        return $postData;
     }
 
     public function getAllPostsOfCategory($categoryName)

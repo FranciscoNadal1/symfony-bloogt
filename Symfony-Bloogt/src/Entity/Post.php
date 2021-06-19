@@ -29,7 +29,7 @@ class Post
      * @ORM\JoinColumn(name="post_id")
      */
     private $imagePost;
-     /**
+    /**
      * @ORM\Column(type="datetime")
      * @var DateTime
      */
@@ -207,6 +207,8 @@ class Post
      */
     public function getCommentCount()
     {
+        if($this->comments ==null)
+            return 0;
         return sizeof($this->comments);
     }
 

@@ -1,53 +1,121 @@
 <div class="profileButtons">
-    <button>
+    <button class="btn btn-secondary btn-lg">
         <a href="{{ path('profileShowPosts', {username: User.getUsername()}) }}">Posts</a>
     </button>
-    <button>
+    <button class="btn btn-secondary btn-lg">
         <a href="{{ path('profileShowComments', {username: User.getUsername()}) }}">Comments</a>
     </button>
 </div>
 
-<div class="profile">
-    <div class="profileAvatar col-3 float-left">
 
-        {% if User.avatar == null %}
-        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="profilePic"/>
-        {% endif %}
+<div class="main-body">
+    <div class="profile">
+    <div class="row gutters-sm">
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
 
-        {% if User.avatar != null %}
-        <img src="{{User.avatar}}" class="profilePic"/>
-        {% endif %}
+                        {% if User.avatar == null %}
+                            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"  alt="Admin" class="rounded-circle" width="150">
+                        {% endif %}
+
+                        {% if User.avatar != null %}
+                            <img src="{{User.avatar}}"  alt="Admin" class="rounded-circle" width="150">
+                        {% endif %}
+
+
+                        <div class="mt-3">
+                            <h4>{{  User.getUsername() }}</h4>
+                            <p class="text-secondary mb-1"> {{  User.name() }},  {{  User.surname() }}</p>
+
+                            {% if app.user.username is defined and User.username != app.user.username %}
+
+                                {% if User not in app.user.following %}
+                                    <a href="{{ path('followUser', {username: User.username}) }}">
+                                        <button class="btn btn-primary">Follow</button>
+                                    </a>
+                                {% endif %}
+
+                                {% if User in app.user.following %}
+
+                                    <a href="{{ path('unfollowUser', {username: User.username}) }}">
+                                        <button class="btn btn-danger">Unfollow</button>
+                                    </a>
+                                {% endif %}
+
+                                <button class="btn btn-outline-primary">Message</button>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Full Name</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            {{  User.name() }} {{  User.surname() }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            {{  User.email }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Post count</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            {{  User.postNumber() }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Comment count</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            {{  User.commentCount() }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Comment rating</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            {{  User.commentCount() }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Post rating</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            {{  User.commentCount() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
     </div>
-    <div class="profileAvatar col-9 float-right">
-        <div class="profileDataField">
-            <div class="profileDataName">Username</div>
-            <div class="profileDataValue">
-                {{  User.getUsername() }}
-            </div>
-        </div>
-        <div class="profileDataField">
-            <div class="profileDataName">Name</div>
-            <div class="profileDataValue">
-                {{  User.name() }}
-            </div>
-        </div>
-        <div class="profileDataField">
-            <div class="profileDataName">Surname</div>
-            <div class="profileDataValue">
-                {{  User.surname() }}
-            </div>
-        </div>
-        <div class="profileDataField">
-            <div class="profileDataName">Number of posts</div>
-            <div class="profileDataValue">
-                {{  User.postNumber() }}
-            </div>
-        </div>
-        <div class="profileDataField">
-            <div class="profileDataName">Comment count</div>
-            <div class="profileDataValue">
-                {{  User.commentCount() }}
-            </div>
-        </div>
     </div>
 </div>
