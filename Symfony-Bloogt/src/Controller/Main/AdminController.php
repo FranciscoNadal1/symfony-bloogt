@@ -8,9 +8,15 @@ use App\Repository\CategoryRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;
+use App\Services\CommentService;
+use App\Services\PostService;
+use App\Services\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
+use Faker\Factory;
+use Faker\Generator;
+
 
 class AdminController extends AbstractController
 {
@@ -67,6 +73,14 @@ class AdminController extends AbstractController
         $category = $categoryRepo->findAll();
 
         return $this->render('adminTables/categoriesList.html.twig', array(
+            'categories' => $category
+        ));
+    }
+    public function categoryCreation(CategoryRepository $categoryRepo)
+    {
+        $category = $categoryRepo->findAll();
+
+        return $this->render('adminTables/categoriesCreation.html.twig', array(
             'categories' => $category
         ));
     }
@@ -130,4 +144,58 @@ class AdminController extends AbstractController
         ));
     }
 
+
+
+
+
+    public function newRandomUsers(UserService $userService)
+    {
+        if(isset($_GET['numberOfUsers'])){
+
+            $numberOfUsers = $_GET['numberOfUsers'];
+            for($i=0;$i!=$numberOfUsers;$i++){
+                $userService->createRandomUser();
+            }
+            $this->addFlash('success', $numberOfUsers . ' random users were created');
+
+        }
+
+        return $this->render('adminTables/createRandomUsers.html.twig', array(
+        ));
+    }
+
+
+    public function newRandomPosts(PostService $postService)
+    {
+
+        if(isset($_GET['numberOfPosts'])){
+
+            $numberOfPosts = $_GET['numberOfPosts'];
+            for($i=0;$i!=$numberOfPosts;$i++){
+                $postService->createRandomPost();
+            }
+            $this->addFlash('success', $numberOfPosts . ' random posts were created');
+
+        }
+
+        return $this->render('adminTables/createRandomPosts.html.twig', array(
+        ));
+    }
+
+    public function newRandomComments(CommentService $commentService)
+    {
+
+        if(isset($_GET['numberOfComments'])){
+
+            $numberOfComments = $_GET['numberOfComments'];
+            for($i=0;$i!=$numberOfComments;$i++){
+                $commentService->createRandomComment();
+            }
+            $this->addFlash('success', $numberOfComments . ' random comments were created');
+
+        }
+
+        return $this->render('adminTables/createRandomComments.html.twig', array(
+        ));
+    }
 }

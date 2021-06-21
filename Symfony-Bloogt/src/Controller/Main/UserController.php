@@ -4,10 +4,12 @@
 namespace App\Controller\Main;
 
 
+use App\Entity\Chat;
 use App\Entity\Post;
 use App\Entity\User as User;
 use App\Form\UserCreationForm;
 use App\Repository\CategoryRepository;
+use App\Repository\ChatRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
@@ -195,8 +197,9 @@ class UserController extends AbstractController
 
     }
 
-    public function accountNetwork(PostService $postService, UserService $userService, UserInterface $user)
+    public function accountNetwork(Request $request, PostService $postService, UserService $userService, UserInterface $user)
     {
+        $_SESSION['uri'] = $request->getRequestUri();
 
         $UserData = $userService->getUserByUsername($user->getUsername());
         $postData = $postService->getAllPostsCreatedBy($UserData);
@@ -207,6 +210,148 @@ class UserController extends AbstractController
 
         ));
 
+    }
+
+
+    public function accountSendMessage(Request $request, PostService $postService, UserService $userService, UserInterface $user)
+    {
+        $_SESSION['uri'] = $request->getRequestUri();
+
+        return $this->render('main/routes/account/sendMessage.html.twig', array(
+        ));
+
+    }
+    public function accountSendMessageTo(string $username, Request $request, PostService $postService, UserService $userService, UserInterface $user)
+    {
+        $_SESSION['uri'] = $request->getRequestUri();
+
+        return $this->render('main/routes/account/sendMessage.html.twig', array(
+            'to' => $username
+        ));
+
+    }
+
+    public function chatList(Request $request, PostService $postService, UserService $userService, ChatRepository $chatRepo, UserInterface $user)
+    {
+        $_SESSION['uri'] = $request->getRequestUri();
+
+        $chatList = $chatRepo->findAll();
+
+        return $this->render('main/routes/account/chatList.html.twig', array(
+            'chatList' => $chatList
+        ));
+
+    }
+
+    public function createChat(Request $request, PostService $postService, UserService $userService, UserInterface $user, ChatRepository $chatRepo)
+    {
+
+
+        $message = $_REQUEST['message'];
+        $toUsername = $_REQUEST['username'];
+        $User1Data = $userService->getUserByUsername($user->getUsername());
+        $User2Data = $userService->getUserByUsername($toUsername);
+
+        $chatRepo->newChat($User1Data, $message, $User2Data);
+
+        return $this->redirect($_SESSION['uri']);
+
+    }
+
+
+
+
+    public function accountEdit(Request $request, PostService $postService, UserService $userService, UserInterface $user)
+    {
+        $_SESSION['uri'] = $request->getRequestUri();
+
+        $UserData = $userService->getUserByUsername($user->getUsername());
+        $postData = $postService->getAllPostsCreatedBy($UserData);
+
+        return $this->render('main/routes/account/accountEdit.html.twig', array(
+            'User' =>$UserData
+        ));
+    }
+
+
+    public function accountEditForm(Request $request, PostService $postService, UserService $userService, UserInterface $user, UserPasswordEncoderInterface $encoder)
+    {
+
+        /** @var User|null $user */
+        $UserData = $userService->getUserByUsername($user->getUsername());
+
+/////////   Verifications first
+        if (isset($_POST['email']) & $_POST['email'] != null) {
+
+            /** @var User|null $user */
+            $userOfMail = $userService->getUserByEmail($_POST['email']);
+
+            if($userOfMail == null)
+                $UserData->setEmail($_POST['email']);
+            else{
+                $this->addFlash('error', 'Email already exists');
+                return $this->redirect($_SESSION['uri']);
+            }
+        }
+
+
+/////////   Password verification
+        if (isset($_POST['oldPassword']) & $_POST['oldPassword'] != null) {
+            if (isset($_POST['newPassword']) & $_POST['newPassword'] != null){
+                if (isset($_POST['repeatNewPassword']) & $_POST['repeatNewPassword'] != null){
+                    if($_POST['repeatNewPassword'] != $_POST['newPassword']){
+                        $this->addFlash('error', 'Passwords do not coincide');
+                        return $this->redirect($_SESSION['uri']);
+                    }else{
+                        if($encoder->isPasswordValid( $user, $_POST['oldPassword'])){
+
+                            ////                Valid
+                            $this->addFlash('success', 'Password changed');
+
+                            $encoded = $encoder->encodePassword($user, $_POST['repeatNewPassword']);
+                            $UserData->setPassword($encoded);
+
+                        }else{
+                            $this->addFlash('error', 'Your password is not valid');
+                            return $this->redirect($_SESSION['uri']);
+
+                        }
+
+                    }
+
+                }
+            }
+        }else{
+            if (isset($_POST['newPassword']) & $_POST['newPassword'] != null && isset($_POST['repeatNewPassword']) & $_POST['repeatNewPassword'] != null){
+                $this->addFlash('error', 'You need to define the old password');
+                return $this->redirect($_SESSION['uri']);
+            }
+        }
+
+
+
+
+        if (isset($_POST['name']) & $_POST['name'] != null)
+            $UserData->setName($_POST['name']);
+
+        if (isset($_POST['surname']) & $_POST['surname'] != null)
+            $UserData->setSurname($_POST['surname']);
+
+
+        if(isset($_POST['bio']) & $_POST['bio'] != null)
+            $UserData->setBio($_POST['bio']);
+
+        if(isset($_POST['avatar']) & $_POST['avatar'] != null)
+            $UserData->setAvatar($_POST['avatar']);
+
+
+
+
+        $userService->createUser($UserData);
+
+        $this->addFlash('success', 'User data was edited');
+
+        return $this->redirect($_SESSION['uri']);
     }
 
     public function followUser(UserInterface $user, UserService $userService, string $username)

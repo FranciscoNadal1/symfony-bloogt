@@ -11,7 +11,7 @@
         <ul class="list-group">
             <li class="list-group-item ">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-2">
                         {% if following.avatar == null %}
                             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"  alt="Admin" class="rounded-circle" width="150">
                         {% endif %}
@@ -22,7 +22,15 @@
 
                     </div>
                     <div class="col-9">
+                        <a href="{{ path('profile', {username: following.username}) }}">
                         {{  following.username }}
+                        </a>
+                    </div>
+                    <div class="col-1">
+
+                            <a href="{{ path('unfollowUser', {username: following.username}) }}">
+                                <button class="btn btn-danger">Unfollow</button>
+                            </a>
                     </div>
                 </div>
             </li>

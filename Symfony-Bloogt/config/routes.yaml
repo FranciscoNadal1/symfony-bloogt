@@ -14,6 +14,10 @@ sendCommentToPost:
   ##############################################################################
   ###############            Post routes                    ####################
 
+search:
+  path:       /search
+  controller: App\Controller\Main\PostController::search
+
 allPostsRandom:
   path:       /random
   controller: App\Controller\Main\PostController::getAllPostsByRandom
@@ -73,6 +77,18 @@ profileShowComments:
   path:       /profile/{username}/comments
   controller: App\Controller\Main\UserController::getUserProfileComments
 
+register:
+  path:       /register
+  controller: App\Controller\Main\UserController::userCreation
+
+followUser:
+  path:       /follow/{username}
+  controller: App\Controller\Main\UserController::followUser
+
+unfollowUser:
+  path:       /unfollow/{username}
+  controller: App\Controller\Main\UserController::unfollowUser
+
 
 account:
   path:       /account
@@ -86,24 +102,29 @@ accountNetwork:
   path:       /account/network
   controller: App\Controller\Main\UserController::accountNetwork
 
-register:
-  path:       /register
-  controller: App\Controller\Main\UserController::userCreation
+accountEdit:
+  path:       /account/edit
+  controller: App\Controller\Main\UserController::accountEdit
 
+accountEditForm:
+  path:       /account/editForm
+  controller: App\Controller\Main\UserController::accountEditForm
 
-followUser:
-  path:       /follow/{username}
-  controller: App\Controller\Main\UserController::followUser
+sendMessages:
+  path:       /account/sendMessages
+  controller: App\Controller\Main\UserController::accountSendMessage
 
-unfollowUser:
-  path:       /unfollow/{username}
-  controller: App\Controller\Main\UserController::unfollowUser
+sendMessagesTo:
+  path:       /account/sendMessages/{username}
+  controller: App\Controller\Main\UserController::accountSendMessageTo
 
-
+newChat:
+  path:       /account/newChat
+  controller: App\Controller\Main\UserController::createChat
 
 messages:
   path:       /messages
-  controller: App\Controller\Main\AdminController::getAllApiRoutes
+  controller: App\Controller\Main\UserController::chatList
 
 login:
   path:       /login
@@ -132,9 +153,25 @@ listAllCategories:
   path:       /admin/listAllCategories
   controller: App\Controller\Main\AdminController::getAllCategories
 
+createCategories:
+  path:       /admin/createCategories
+  controller: App\Controller\Main\AdminController::categoryCreation
+
 newCategory:
   path:       /admin/newCategory
   controller: App\Controller\Main\AdminController::newCategory
+
+createRandomUsers:
+  path:       /admin/randomUsers
+  controller: App\Controller\Main\AdminController::newRandomUsers
+
+createRandomPosts:
+  path:       /admin/randomPosts
+  controller: App\Controller\Main\AdminController::newRandomPosts
+
+createRandomComments:
+  path:       /admin/randomComments
+  controller: App\Controller\Main\AdminController::newRandomComments
 
 deleteCategory:
   path:       /admin/deleteCategory

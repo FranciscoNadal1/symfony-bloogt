@@ -44,15 +44,31 @@
                                     </a>
                                 {% endif %}
 
-                                <button class="btn btn-outline-primary">Message</button>
+                                    <a href="{{ path('sendMessagesTo', {username: User.username}) }}">
+                                        <button class="btn btn-outline-primary">Message</button>
+                                    </a>
                             {% endif %}
                         </div>
 
                     </div>
                 </div>
+
+
+
             </div>
 
+            {% if User.bio is defined %}
+                <div class="bio card mt-3">
+                    <div class="card-header ">BIO</div>
+                    <div class="card-body">
+                        {{ User.bio }}
+                    </div>
+                </div>
+            {% endif %}
+
+
         </div>
+
         <div class="col-md-8">
             <div class="card mb-3">
                 <div class="card-body">
@@ -109,13 +125,18 @@
                             {{  User.commentCount() }}
                         </div>
                     </div>
+
                 </div>
+
             </div>
 
 
 
 
         </div>
+
+
     </div>
+
     </div>
 </div>

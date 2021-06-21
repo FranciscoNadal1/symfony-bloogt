@@ -13,6 +13,8 @@
         <a href="{{ path('profile', {username: app.user.username()}) }}">
             <button class="btn btn btn-light btn-lg">My profile</button>
         </a>
-        <button class="btn btn btn-light btn-lg">My account</button>
+        <a href="{{ path('accountEdit') }}">
+            <button class="btn btn btn-light btn-lg">My account</button>
+        </a>
     </div>
 </div>

@@ -1,0 +1,24 @@
+{% extends "main/routes/account/accountLayout.html.twig" %}
+
+{% block body %}
+    <h2>Chat list</h2>
+    <ul class="list-group">
+   {% for chat in chatList %}
+        <li class="list-group-item">
+            <span>
+                {{ chat.createdAt}}
+
+            </span>
+            <span>
+                {{ chat.lastMessage.message }}
+            </span>
+
+            <span>
+               {% for user in chat.usersInvolved %}
+                   {{ user.username }}
+               {% endfor %}
+            </span>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

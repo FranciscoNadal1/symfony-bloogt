@@ -1,0 +1,21 @@
+{% extends "adminTables/mainLayout.html.twig" %}
+
+{% block body %}
+
+    <div class="card text-white bg-secondary mb-3">
+        <div class="card-header">Create random posts of random users</div>
+        <div class="card-body">
+            <div class="card-title">Number of created posts:</div>
+
+            <div class="card-text">
+                <form method="GET">
+                    <input class="btn-block" type="text"  placeholder="10" name="numberOfPosts"/>
+                    <input type="submit" value="create" class="btn btn-block btn-dark"/>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

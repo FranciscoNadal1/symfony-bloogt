@@ -39,6 +39,13 @@ class Message
     private $author;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Chat")
+     * @ORM\JoinColumn(name="chat_id", referencedColumnName="id")
+     */
+    private $chat;
+
+
+    /**
      * @ORM\Column(type="boolean")
      * @var boolean
      */
@@ -47,5 +54,80 @@ class Message
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage(string $message): void
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author): void
+    {
+        $this->author = $author;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRead(): bool
+    {
+        return $this->isRead;
+    }
+
+    /**
+     * @param bool $isRead
+     */
+    public function setIsRead(bool $isRead): void
+    {
+        $this->isRead = $isRead;
+    }
+
+    /**
+     * Role constructor.
+     * @param string $authority
+     * @param $user
+     */
+    public function __construct(string $message, User $createdBy)
+    {
+        $this->setMessage($message);
+        $this->setAuthor($createdBy);
     }
 }

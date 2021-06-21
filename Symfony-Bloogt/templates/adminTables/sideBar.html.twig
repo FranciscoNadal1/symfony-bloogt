@@ -1,12 +1,19 @@
 <div class="sidebar">
 
-<ul class="list-group">
-    <a href="{{ path('listAllApiMethods') }}"><li class="list-group-item list-group-item-action">List Rest api methods</li></a>
-    <a href="{{ path('listAllUsers') }}"><li class="list-group-item list-group-item-action">List all users</li></a>
-    <a href="{{ path('listAllPosts') }}"><li class="list-group-item list-group-item-action">List all posts</li></a>
-    <a href="{{ path('listAllComments') }}"><li class="list-group-item list-group-item-action">List all comments</li></a>
-    <a href="{{ path('listAllCategories') }}"><li class="list-group-item list-group-item-action">List all categories</li></a>
+    <h2 class="list-group-item text-light bg-dark mt-3">List data</h2>
+    <ul class="list-group">
+        <a href="{{ path('listAllApiMethods') }}"><li class="list-group-item list-group-item-action">List Rest api methods</li></a>
+        <a href="{{ path('listAllUsers') }}"><li class="list-group-item list-group-item-action">List all users</li></a>
+        <a href="{{ path('listAllPosts') }}"><li class="list-group-item list-group-item-action">List all posts</li></a>
+        <a href="{{ path('listAllComments') }}"><li class="list-group-item list-group-item-action">List all comments</li></a>
+        <a href="{{ path('listAllCategories') }}"><li class="list-group-item list-group-item-action">List all categories</li></a>
 
-</ul>
+    </ul>
+
+    <h2 class="list-group-item text-light bg-dark  mt-5">Create</h2>
+    <a href="{{ path('createCategories') }}"><li class=" list-group-item list-group-item-action">Create categories</li></a>
+    <a href="{{ path('createRandomUsers') }}"><li class=" list-group-item list-group-item-action">Random users</li></a>
+    <a href="{{ path('createRandomPosts') }}"><li class=" list-group-item list-group-item-action">Random posts</li></a>
+    <a href="{{ path('createRandomComments') }}"><li class=" list-group-item list-group-item-action">Random comments</li></a>
 
 </div>

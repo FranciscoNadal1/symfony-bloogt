@@ -20,6 +20,19 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
+    public function search($searchText){
+        //$em = $this->getEntityManager();
+        $query = $this->getEntityManager()->createQuery("SELECT u FROM App\Entity\Post u where u.content like '%$searchText%' order by u.createdAt desc");
+        $posts = $query->getResult();
+
+        /*
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u')
+            ->from("post", 'u');
+        $result=$qb->getQuery()->getResult();
+        */
+        return $posts;
+    }
     public function createNew($content, $category, $user) : bool
     {
         try{
@@ -39,7 +52,7 @@ class PostRepository extends ServiceEntityRepository
         return true;
     }
 
-    public function create($post) : bool
+    public function create($post) : void
     {
         $entityManager = $this->getEntityManager();
         $entityManager->persist($post);

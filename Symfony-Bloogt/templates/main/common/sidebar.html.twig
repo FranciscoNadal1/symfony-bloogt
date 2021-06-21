@@ -22,4 +22,18 @@
             {% include 'main/common/minifiedPost.html.twig' with {post: UtilsCommonVars.BestPostLastHour, title: 'More liked of the last hour'} %}
         {% endif %}
     </div>
+
+
+
+
+</div>
+
+<div class="input-group rounded">
+    <form action="{{ path('search') }}"method="POST">
+        <input type="search" class="form-control rounded" placeholder="Search" name="search" aria-label="Search" aria-describedby="search-addon" />
+            <button type="submit">
+                <i class="glyphicon glyphicon-search"></i>
+            </button>
+    </form>
+  </span>
 </div>

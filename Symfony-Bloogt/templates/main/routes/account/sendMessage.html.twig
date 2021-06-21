@@ -1,0 +1,35 @@
+{% extends "main/routes/account/accountLayout.html.twig" %}
+
+
+{% block body %}
+    <form action="{{ path('newChat') }}" >
+
+
+        <div class="card bg-light mb-3">
+            <div class="card-header">Send message </div>
+            <div class="card-body">
+                <div class="card-text "  class="form-group">
+
+
+
+        {% if to is defined %}
+            <label for="username">Username</label>
+            <input class="form-control" type="text" name="username" value="{{to}}"/>
+        {% elseif to is not defined %}
+            <label for="username">Username</label>
+            <input class="form-control" type="text" name="username" />
+        {% endif %}
+                    <label for="message">Message content</label>
+                    <textarea class="form-control" name="message" placeholder="Message to send">
+
+                    </textarea>
+
+        <input type="submit" value="Send message" class="btn btn-block btn-primary"/>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}

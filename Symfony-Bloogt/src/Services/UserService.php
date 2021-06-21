@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Faker\Factory;
 use mysql_xdevapi\Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -51,24 +52,45 @@ class UserService
         $this->userRepository->remove($user);
     }
 
+    public function getAllUsers()
+    {
+
+        $users = $this->userRepository->findAll();
+        if (is_null($users)) {
+            return null;
+        }
+
+        return $users;
+    }
     public function getUserById(int $id): User
     {
         /** @var User|null $user */
         $user = $this->userRepository->find($id);
         if (is_null($user)) {
-            throw new \RuntimeException('User not found');
+            return null;
         }
 
         return $user;
     }
 
-    public function getUserByUsername(string $username): User
+    public function getUserByEmail(string $email): ?User
+    {
+        /** @var User|null $user */
+        $user = $this->userRepository->findOneBy(array('email' => $email));
+        if (is_null($user)) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    public function getUserByUsername(string $username): ?User
     {
         /** @var User|null $user */
         $user = $this->userRepository->findOneBy(array('username' => $username));
 
         if (is_null($user)) {
-            throw new \RuntimeException('User not found');
+            return null;
         }
 
         return $user;
@@ -99,5 +121,42 @@ class UserService
         $this->userRepository->save($user);
 
 
+    }
+
+    public function createRandomUser(){
+
+        $faker = Factory::create();
+
+        $username = $faker->userName;
+        while($this->getUserByUsername($username) != null){
+            $username = $faker->userName;
+        }
+
+        $password = $faker->password;
+        $name = $faker->name;
+        $surname = $faker->lastName;
+
+        $email = $faker->email;
+        while($this->getUserByEmail($email) != null){
+            $email = $faker->email;
+        }
+
+        $bio = $faker->realText(200,5);
+        $avatar = $faker->imageUrl(100,100,null,false);
+
+        $user = new User();
+
+        $user->setUsername($username);
+        $user->setPassword($password);
+        $user->setName($name);
+        $user->setSurname($surname);
+        $user->setEmail($email);
+
+        $user->setBio($bio);
+        $user->setAvatar($avatar);
+
+        $this->createUser($user);
+
+        return $user;
     }
 }

@@ -4,9 +4,15 @@
         <div class="card-header">Messages</div>
             <div class="card-text">
                 <ul class="list-group">
-                    <li class="list-group-item">Incoming messages</li>
+                    <a href="{{ path('messages') }}">
+                        <li class="list-group-item">Incoming messages</li>
+                    </a>
+                    <!--
                     <li class="list-group-item">Sent</li>
-                    <li class="list-group-item">Send message</li>
+                    -->
+                    <a href="{{ path('sendMessages') }}">
+                        <li class="list-group-item">Send message</li>
+                    </a>
                 </ul>
             </div>
     </div>
@@ -16,6 +22,9 @@
             <p class="card-text">This is the zone where you can control all about your profile, from private messages, to the people you follow...</p>
         </div>
     </div>
+
+
+
 </div>
 
 

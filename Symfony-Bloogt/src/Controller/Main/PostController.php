@@ -23,6 +23,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class PostController extends AbstractController
 {
 
+    public function search(Request $request, PostRepository $postRepo, Utils $utils)
+    {
+
+        $_SESSION['uri'] = $request->getRequestUri();
+
+
+      //  $postData = $postRepo->findBy(array(), array('createdAt' => 'DESC'));
+        $postData = $postRepo->search($_POST['search']);
+
+        return $this->render('main/routes/postList.html.twig', array(
+            'Posts' => $postData,
+            'UtilsCommonVars' => $utils->getVars(),
+            'Category' => "search: " . $_POST['search']
+        ));
+
+    }
 
     public function getAllPosts(Request $request, PostRepository $postRepo, Utils $utils)
     {

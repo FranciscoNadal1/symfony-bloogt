@@ -25,7 +25,8 @@
             </td>
 
 
-   <td> {{ user.getUsername()|e }}</td>
+   <td> <a href="{{ path('profile', {username: user.getUsername}) }}">{{ user.getUsername()|e }}</a></td>
+
         <td> {{ user.getEmail()|e }}</td>
    <td>
 

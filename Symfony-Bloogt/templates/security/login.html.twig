@@ -1,8 +1,19 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+    <div id="LoginForm">
+    <div class="card">
+        <h5 class="card-header">Login</h5>
+        <div class="card-body">
+
+            <div class="card-text">
+
+
+
+
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -39,12 +50,18 @@
             Sign in
         </button>
 
-        <a class="nav-link" href="{{ path('register') }}">
+        <a class="" href="{{ path('register') }}">
             <button class="btn btn-lg btn-primary" type="button">
                 Register
             </button>
         </a>
     </div>
     {% endif %}
+            </div>
 </form>
+
+
+        </div>
+    </div>
+    </div>
 {% endblock %}

@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Chat;
+use App\Entity\Message;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +22,31 @@ class ChatRepository extends ServiceEntityRepository
         parent::__construct($registry, Chat::class);
     }
 
+    public function newChat(User $user1, string $message, User $user2) : void{
+
+        /** @var Chat|null $chat */
+        $chat = new Chat();
+
+        /** @var Message[]|null $messageObject */
+        $messageObject[] = new Message($message, $user1);
+
+        /** @var User[]|null $userObject */
+        $userObject[] = $user1;
+        $chat->setUsersInvolved($userObject);
+        $chat->setMessages($messageObject);
+        $this->save($chat);
+    }
+
+    public function save($chat) : bool{
+        try{
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($chat);
+            $entityManager->flush();
+        }catch(\Exception $e){
+            return false;
+        }
+        return true;
+    }
     // /**
     //  * @return Chat[] Returns an array of Chat objects
     //  */
